@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { loginAsOwner, loginAsBidder, createProject, deleteProject } from '../utils/api';
+import { loginAsOwner, loginAsBidder, createProject, deleteProject, createBid, createAssignment, deleteAssignment } from '../utils/api';
 
 test.setTimeout(60000);
 
@@ -498,5 +498,413 @@ test.describe('Project Detail Page - Owner Email Field', () => {
     // Playwright will get the rendered text, which might be punycode or the original unicode depending on browser rendering.
     // We expect it to be the original unicode as the frontend should display it as such.
     expect(ownerEmailValue).toBe(project.ownerId.email);
+  });
+});
+
+test.describe('Project Detail Page - Assignment Edit', () => {
+  let ownerContext, bidderContext, ownerPage, bidderPage, projectId, bidId, assignmentId;
+
+  test.beforeEach(async ({ browser }) => {
+    ownerContext = await loginAsOwner(browser);
+    ownerPage = await ownerContext.newPage();
+    bidderContext = await loginAsBidder(browser);
+    bidderPage = await bidderContext.newPage();
+  });
+
+  test.afterEach(async () => {
+    if (assignmentId) {
+      await deleteAssignment(assignmentId, ownerContext);
+      assignmentId = null;
+    }
+    if (projectId) {
+      await deleteProject(projectId, ownerContext);
+      projectId = null;
+    }
+    if (ownerContext) await ownerContext.close();
+    if (bidderContext) await bidderContext.close();
+  });
+
+  test('TC-001: Owner successfully edits assignment metadata', async () => {
+    const project = await createProject({
+      title: 'Assignment Edit Test Project',
+      description: 'Test description',
+      budget: 500,
+      deadline: '2026-06-15',
+      skills: ['Testing'],
+    }, ownerContext);
+    projectId = project._id;
+
+    const bid = await createBid({
+      projectId,
+      freelancerName: 'Jane Doe',
+      amount: 450,
+      timeline: 14,
+      proposal: 'I can complete this project with high quality.',
+    }, bidderContext);
+    bidId = bid._id;
+
+    const assignment = await createAssignment({
+      projectId,
+      bidId,
+      freelancerName: 'Jane Doe',
+      description: 'Initial assignment description for testing edits.',
+    }, ownerContext);
+    assignmentId = assignment._id;
+
+    await ownerPage.goto(`/projects/${projectId}`);
+    await ownerPage.waitForSelector('#assignment');
+
+    const assignmentCard = ownerPage.locator('#assignment .card');
+    await expect(assignmentCard).toBeVisible();
+    await expect(assignmentCard.locator('strong:has-text("Freelancer:")')).toBeVisible();
+
+    const editButton = ownerPage.locator('button:has-text("Edit Assignment")');
+    await expect(editButton).toBeVisible();
+    await editButton.click();
+
+    const editForm = ownerPage.locator('#assignment .form-card');
+    await expect(editForm).toBeVisible();
+    await expect(editForm.locator('h3:has-text("Edit Assignment")')).toBeVisible();
+
+    const freelancerInput = editForm.locator('input.form-control').first();
+    await expect(freelancerInput).toHaveValue('Jane Doe');
+    await freelancerInput.fill('Jane Smith');
+
+    const descriptionTextarea = editForm.locator('textarea.form-control').first();
+    await expect(descriptionTextarea).toHaveValue('Initial assignment description for testing edits.');
+    await descriptionTextarea.fill('Updated detailed project requirements with new scope');
+
+    const notesTextarea = editForm.locator('textarea.form-control').nth(1);
+    await notesTextarea.fill('Client requested scope expansion');
+
+    const saveButton = editForm.locator('button:has-text("Save Changes")');
+    await saveButton.click();
+
+    await expect(editForm).not.toBeVisible();
+    await expect(assignmentCard).toBeVisible();
+    await expect(assignmentCard).toContainText('Jane Smith');
+    await expect(assignmentCard).toContainText('Updated detailed project requirements with new scope');
+    await expect(assignmentCard).toContainText('Client requested scope expansion');
+  });
+
+  test('TC-002: Complete edit flow from view to save', async () => {
+    const project = await createProject({
+      title: 'E2E Edit Flow Project',
+      description: 'Test description',
+      budget: 500,
+      deadline: '2026-06-15',
+      skills: ['Testing'],
+    }, ownerContext);
+    projectId = project._id;
+
+    const bid = await createBid({
+      projectId,
+      freelancerName: 'John Doe',
+      amount: 450,
+      timeline: 14,
+      proposal: 'I can complete this project.',
+    }, bidderContext);
+    bidId = bid._id;
+
+    const assignment = await createAssignment({
+      projectId,
+      bidId,
+      freelancerName: 'John Doe',
+      description: 'Build mobile app',
+    }, ownerContext);
+    assignmentId = assignment._id;
+
+    await ownerPage.goto(`/projects/${projectId}`);
+    await ownerPage.waitForSelector('#assignment');
+
+    const assignmentCard = ownerPage.locator('#assignment .card');
+    await expect(assignmentCard).toBeVisible();
+    await expect(assignmentCard).toContainText('Build mobile app');
+
+    await ownerPage.locator('button:has-text("Edit Assignment")').click();
+
+    const editForm = ownerPage.locator('#assignment .form-card');
+    await expect(editForm).toBeVisible();
+
+    const descriptionTextarea = editForm.locator('textarea.form-control').first();
+    await descriptionTextarea.fill('Enhanced description with at least ten characters');
+
+    await editForm.locator('button:has-text("Save Changes")').click();
+
+    await expect(editForm).not.toBeVisible();
+    await expect(assignmentCard).toContainText('Enhanced description with at least ten characters');
+
+    await ownerPage.reload();
+    await ownerPage.waitForSelector('#assignment');
+    await expect(assignmentCard).toContainText('Enhanced description with at least ten characters');
+  });
+
+  test('TC-003: Edit with minimum valid description length', async () => {
+    const project = await createProject({
+      title: 'Min Length Test Project',
+      description: 'Test description',
+      budget: 500,
+      deadline: '2026-06-15',
+      skills: ['Testing'],
+    }, ownerContext);
+    projectId = project._id;
+
+    const bid = await createBid({
+      projectId,
+      freelancerName: 'John Doe',
+      amount: 450,
+      timeline: 14,
+      proposal: 'I can complete this project.',
+    }, bidderContext);
+    bidId = bid._id;
+
+    const assignment = await createAssignment({
+      projectId,
+      bidId,
+      freelancerName: 'John Doe',
+      description: 'Initial description for validation test',
+    }, ownerContext);
+    assignmentId = assignment._id;
+
+    await ownerPage.goto(`/projects/${projectId}`);
+    await ownerPage.waitForSelector('#assignment');
+
+    await ownerPage.locator('button:has-text("Edit Assignment")').click();
+
+    const editForm = ownerPage.locator('#assignment .form-card');
+    const descriptionTextarea = editForm.locator('textarea.form-control').first();
+    await descriptionTextarea.fill('Ten chars!');
+
+    await editForm.locator('button:has-text("Save Changes")').click();
+
+    await expect(editForm).not.toBeVisible();
+    const assignmentCard = ownerPage.locator('#assignment .card');
+    await expect(assignmentCard).toContainText('Ten chars!');
+  });
+
+  test('TC-004: Edit only notes field while keeping other fields unchanged', async () => {
+    const project = await createProject({
+      title: 'Notes Edit Test Project',
+      description: 'Test description',
+      budget: 500,
+      deadline: '2026-06-15',
+      skills: ['Testing'],
+    }, ownerContext);
+    projectId = project._id;
+
+    const bid = await createBid({
+      projectId,
+      freelancerName: 'John Doe',
+      amount: 450,
+      timeline: 14,
+      proposal: 'I can complete this project.',
+    }, bidderContext);
+    bidId = bid._id;
+
+    const assignment = await createAssignment({
+      projectId,
+      bidId,
+      freelancerName: 'John Doe',
+      description: 'Original description that should remain unchanged',
+      notes: 'Original notes',
+    }, ownerContext);
+    assignmentId = assignment._id;
+
+    await ownerPage.goto(`/projects/${projectId}`);
+    await ownerPage.waitForSelector('#assignment');
+
+    await ownerPage.locator('button:has-text("Edit Assignment")').click();
+
+    const editForm = ownerPage.locator('#assignment .form-card');
+    const notesTextarea = editForm.locator('textarea.form-control').nth(1);
+    await notesTextarea.fill('Additional project requirements documented');
+
+    await editForm.locator('button:has-text("Save Changes")').click();
+
+    const assignmentCard = ownerPage.locator('#assignment .card');
+    await expect(assignmentCard).toContainText('John Doe');
+    await expect(assignmentCard).toContainText('Original description that should remain unchanged');
+    await expect(assignmentCard).toContainText('Additional project requirements documented');
+  });
+
+  test('TC-005: Cancel edit without saving changes', async () => {
+    const project = await createProject({
+      title: 'Cancel Edit Test Project',
+      description: 'Test description',
+      budget: 500,
+      deadline: '2026-06-15',
+      skills: ['Testing'],
+    }, ownerContext);
+    projectId = project._id;
+
+    const bid = await createBid({
+      projectId,
+      freelancerName: 'John Doe',
+      amount: 450,
+      timeline: 14,
+      proposal: 'I can complete this project.',
+    }, bidderContext);
+    bidId = bid._id;
+
+    const assignment = await createAssignment({
+      projectId,
+      bidId,
+      freelancerName: 'John Doe',
+      description: 'Original description should remain',
+    }, ownerContext);
+    assignmentId = assignment._id;
+
+    await ownerPage.goto(`/projects/${projectId}`);
+    await ownerPage.waitForSelector('#assignment');
+
+    await ownerPage.locator('button:has-text("Edit Assignment")').click();
+
+    const editForm = ownerPage.locator('#assignment .form-card');
+    const freelancerInput = editForm.locator('input.form-control').first();
+    await freelancerInput.fill('Different Name');
+
+    const descriptionTextarea = editForm.locator('textarea.form-control').first();
+    await descriptionTextarea.fill('Modified description that should not be saved');
+
+    const cancelButton = editForm.locator('button:has-text("Cancel")');
+    await cancelButton.click();
+
+    await expect(editForm).not.toBeVisible();
+    const assignmentCard = ownerPage.locator('#assignment .card');
+    await expect(assignmentCard).toContainText('John Doe');
+    await expect(assignmentCard).toContainText('Original description should remain');
+    await expect(assignmentCard).not.toContainText('Different Name');
+    await expect(assignmentCard).not.toContainText('Modified description that should not be saved');
+
+    await expect(ownerPage.locator('button:has-text("Edit Assignment")')).toBeVisible();
+  });
+
+  test('TC-006: Validation error for empty freelancer name', async () => {
+    const project = await createProject({
+      title: 'Validation Test Project',
+      description: 'Test description',
+      budget: 500,
+      deadline: '2026-06-15',
+      skills: ['Testing'],
+    }, ownerContext);
+    projectId = project._id;
+
+    const bid = await createBid({
+      projectId,
+      freelancerName: 'John Doe',
+      amount: 450,
+      timeline: 14,
+      proposal: 'I can complete this project.',
+    }, bidderContext);
+    bidId = bid._id;
+
+    const assignment = await createAssignment({
+      projectId,
+      bidId,
+      freelancerName: 'John Doe',
+      description: 'Description for validation test',
+    }, ownerContext);
+    assignmentId = assignment._id;
+
+    await ownerPage.goto(`/projects/${projectId}`);
+    await ownerPage.waitForSelector('#assignment');
+
+    await ownerPage.locator('button:has-text("Edit Assignment")').click();
+
+    const editForm = ownerPage.locator('#assignment .form-card');
+    const freelancerInput = editForm.locator('input.form-control').first();
+    await freelancerInput.fill('');
+
+    await editForm.locator('button:has-text("Save Changes")').click();
+
+    await expect(editForm).toBeVisible();
+    const errorMsg = editForm.locator('.error-msg:has-text("Freelancer name is required")');
+    await expect(errorMsg).toBeVisible();
+  });
+
+  test('TC-007: Validation error for description less than 10 characters', async () => {
+    const project = await createProject({
+      title: 'Description Validation Test',
+      description: 'Test description',
+      budget: 500,
+      deadline: '2026-06-15',
+      skills: ['Testing'],
+    }, ownerContext);
+    projectId = project._id;
+
+    const bid = await createBid({
+      projectId,
+      freelancerName: 'John Doe',
+      amount: 450,
+      timeline: 14,
+      proposal: 'I can complete this project.',
+    }, bidderContext);
+    bidId = bid._id;
+
+    const assignment = await createAssignment({
+      projectId,
+      bidId,
+      freelancerName: 'John Doe',
+      description: 'Description for validation test',
+    }, ownerContext);
+    assignmentId = assignment._id;
+
+    await ownerPage.goto(`/projects/${projectId}`);
+    await ownerPage.waitForSelector('#assignment');
+
+    await ownerPage.locator('button:has-text("Edit Assignment")').click();
+
+    const editForm = ownerPage.locator('#assignment .form-card');
+    const descriptionTextarea = editForm.locator('textarea.form-control').first();
+    await descriptionTextarea.fill('Short');
+
+    await editForm.locator('button:has-text("Save Changes")').click();
+
+    await expect(editForm).toBeVisible();
+    const errorMsg = editForm.locator('.error-msg:has-text("Description must be at least 10 characters")');
+    await expect(errorMsg).toBeVisible();
+  });
+
+  test('TC-008: Validation error for empty description', async () => {
+    const project = await createProject({
+      title: 'Empty Description Test',
+      description: 'Test description',
+      budget: 500,
+      deadline: '2026-06-15',
+      skills: ['Testing'],
+    }, ownerContext);
+    projectId = project._id;
+
+    const bid = await createBid({
+      projectId,
+      freelancerName: 'John Doe',
+      amount: 450,
+      timeline: 14,
+      proposal: 'I can complete this project.',
+    }, bidderContext);
+    bidId = bid._id;
+
+    const assignment = await createAssignment({
+      projectId,
+      bidId,
+      freelancerName: 'John Doe',
+      description: 'Description for validation test',
+    }, ownerContext);
+    assignmentId = assignment._id;
+
+    await ownerPage.goto(`/projects/${projectId}`);
+    await ownerPage.waitForSelector('#assignment');
+
+    await ownerPage.locator('button:has-text("Edit Assignment")').click();
+
+    const editForm = ownerPage.locator('#assignment .form-card');
+    const descriptionTextarea = editForm.locator('textarea.form-control').first();
+    await descriptionTextarea.fill('');
+
+    await editForm.locator('button:has-text("Save Changes")').click();
+
+    await expect(editForm).toBeVisible();
+    const errorMsg = editForm.locator('.error-msg:has-text("Description is required")');
+    await expect(errorMsg).toBeVisible();
   });
 });
