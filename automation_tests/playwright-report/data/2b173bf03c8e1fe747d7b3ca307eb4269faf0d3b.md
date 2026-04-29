@@ -1,0 +1,2332 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: projectDetailPage.spec.js >> Post Job Page - Functionality >> TC-011: All form fields accept valid data types and formats
+- Location: playwright\tests\projectDetailPage.spec.js:660:3
+
+# Error details
+
+```
+Test timeout of 60000ms exceeded.
+```
+
+```
+Error: page.fill: Target page, context or browser has been closed
+Call log:
+  - waiting for locator('input[name="title"]')
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e6]:
+      - link "Oktawave" [ref=e7]:
+        - /url: /
+      - navigation "Primary" [ref=e8]:
+        - link "Find work" [ref=e9]:
+          - /url: /
+        - link "Post a job" [ref=e10]:
+          - /url: /post-job
+      - generic "Search" [ref=e11]:
+        - generic [ref=e12]:
+          - img [ref=e14]
+          - searchbox "Search jobs" [ref=e17]
+      - generic [ref=e18]:
+        - generic [ref=e19]:
+          - generic [ref=e20]: T
+          - generic [ref=e21]:
+            - generic [ref=e22]: Taylor Reed
+            - generic [ref=e23]: Owner · VP Growth Marketing
+        - button "Log out" [ref=e24] [cursor=pointer]
+  - main [ref=e25]:
+    - navigation "Breadcrumb" [ref=e26]:
+      - link "Find work" [ref=e27]:
+        - /url: /
+      - text: / All jobs
+    - heading "Browse fixed-price projects" [level=1] [ref=e28]
+    - paragraph [ref=e29]: Contract-style listings with budget and deadline—similar to a talent marketplace job feed. Filter by status and budget, sort results, and open a job to bid or manage delivery.
+    - generic [ref=e30]:
+      - complementary [ref=e31]:
+        - generic [ref=e32]:
+          - heading "Filters" [level=3] [ref=e33]
+          - generic [ref=e34]:
+            - generic [ref=e35]: Job status
+            - combobox "Job status" [ref=e36]:
+              - option "All jobs" [selected]
+              - option "Open — accepting proposals"
+              - option "In progress"
+              - option "Completed"
+              - option "Cancelled"
+          - generic [ref=e37]:
+            - generic [ref=e38]: Budget (USD)
+            - generic [ref=e39]:
+              - spinbutton "Minimum budget" [ref=e40]
+              - spinbutton "Maximum budget" [ref=e41]
+        - generic [ref=e42]:
+          - heading "Client tools" [level=3] [ref=e43]
+          - paragraph [ref=e44]: Post a fixed-scope project for freelancers to bid on.
+          - link "+ Post a new job" [ref=e45] [cursor=pointer]:
+            - /url: /post-job
+      - region "Job results" [ref=e46]:
+        - generic [ref=e47]:
+          - paragraph [ref=e48]:
+            - strong [ref=e49]: "82"
+            - text: jobs found
+          - generic [ref=e50]:
+            - generic [ref=e51]: Sort jobs
+            - combobox "Sort jobs" [ref=e52]:
+              - 'option "Sort: Newest first" [selected]'
+              - 'option "Sort: Budget (high to low)"'
+              - 'option "Sort: Budget (low to high)"'
+              - 'option "Sort: Deadline (soonest)"'
+        - generic [ref=e53]:
+          - article [ref=e54]:
+            - generic [ref=e55]:
+              - heading "Date Picker Test" [level=2] [ref=e56]:
+                - link "Date Picker Test" [ref=e57]:
+                  - /url: /projects/69f1b9601ff7b1077cfe8f88
+              - paragraph [ref=e58]: Test date picker functionality
+              - generic [ref=e59]:
+                - generic [ref=e60]: Fixed price
+                - generic [ref=e61]: ·
+                - generic [ref=e62]: Client Taylor Reed
+                - generic [ref=e63]: ·
+                - generic [ref=e64]: Posted 7 min ago
+                - generic [ref=e65]: ·
+                - generic [ref=e66]: 26 days left
+              - generic [ref=e68]: Date
+              - generic [ref=e70]: Open
+            - generic [ref=e71]:
+              - generic [ref=e72]:
+                - generic [ref=e73]: $100
+                - generic [ref=e74]: Est. budget
+              - link "View job · Send proposal" [ref=e75]:
+                - /url: /projects/69f1b9601ff7b1077cfe8f88
+          - article [ref=e76]:
+            - generic [ref=e77]:
+              - heading "API Development" [level=2] [ref=e78]:
+                - link "API Development" [ref=e79]:
+                  - /url: /projects/69f1b95e1ff7b1077cfe8f87
+              - paragraph [ref=e80]: Build REST API
+              - generic [ref=e81]:
+                - generic [ref=e82]: Fixed price
+                - generic [ref=e83]: ·
+                - generic [ref=e84]: Client Taylor Reed
+                - generic [ref=e85]: ·
+                - generic [ref=e86]: Posted 7 min ago
+                - generic [ref=e87]: ·
+                - generic [ref=e88]: 21 days left
+              - generic [ref=e89]:
+                - generic [ref=e90]: Python
+                - generic [ref=e91]: Django
+                - generic [ref=e92]: REST
+              - generic [ref=e94]: Open
+            - generic [ref=e95]:
+              - generic [ref=e96]:
+                - generic [ref=e97]: $800
+                - generic [ref=e98]: Est. budget
+              - link "View job · Send proposal" [ref=e99]:
+                - /url: /projects/69f1b95e1ff7b1077cfe8f87
+          - article [ref=e100]:
+            - generic [ref=e101]:
+              - heading "This is a very long title for a job posting that should be accepted" [level=2] [ref=e102]:
+                - link "This is a very long title for a job posting that should be accepted" [ref=e103]:
+                  - /url: /projects/69f1b95c1ff7b1077cfe8f86
+              - paragraph [ref=e104]: "Description with line breaks: - Item 1 - Item 2 And some special characters: !@#$%^&*()_+{}[]|\\;:'\"<>,.?/~`"
+              - generic [ref=e105]:
+                - generic [ref=e106]: Fixed price
+                - generic [ref=e107]: ·
+                - generic [ref=e108]: Client Taylor Reed
+                - generic [ref=e109]: ·
+                - generic [ref=e110]: Posted 7 min ago
+                - generic [ref=e111]: ·
+                - generic [ref=e112]: 26 days left
+              - generic [ref=e113]:
+                - generic [ref=e114]: JavaScript
+                - generic [ref=e115]: Node.js
+                - generic [ref=e116]: PostgreSQL
+              - generic [ref=e118]: Open
+            - generic [ref=e119]:
+              - generic [ref=e120]:
+                - generic [ref=e121]: $2,500
+                - generic [ref=e122]: Est. budget
+              - link "View job · Send proposal" [ref=e123]:
+                - /url: /projects/69f1b95c1ff7b1077cfe8f86
+          - article [ref=e124]:
+            - generic [ref=e125]:
+              - heading "Mobile app UI design" [level=2] [ref=e126]:
+                - link "Mobile app UI design" [ref=e127]:
+                  - /url: /projects/69f1b9521ff7b1077cfe8f85
+              - paragraph [ref=e128]: Design 5 screens for iOS app
+              - generic [ref=e129]:
+                - generic [ref=e130]: Fixed price
+                - generic [ref=e131]: ·
+                - generic [ref=e132]: Client Taylor Reed
+                - generic [ref=e133]: ·
+                - generic [ref=e134]: Posted 7 min ago
+                - generic [ref=e135]: ·
+                - generic [ref=e136]: 33 days left
+              - generic [ref=e137]:
+                - generic [ref=e138]: Figma
+                - generic [ref=e139]: UI/UX
+                - generic [ref=e140]: iOS
+              - generic [ref=e142]: Open
+            - generic [ref=e143]:
+              - generic [ref=e144]:
+                - generic [ref=e145]: $1,200
+                - generic [ref=e146]: Est. budget
+              - link "View job · Send proposal" [ref=e147]:
+                - /url: /projects/69f1b9521ff7b1077cfe8f85
+          - article [ref=e148]:
+            - generic [ref=e149]:
+              - heading "Build responsive landing page" [level=2] [ref=e150]:
+                - link "Build responsive landing page" [ref=e151]:
+                  - /url: /projects/69f1b94d1ff7b1077cfe8f83
+              - paragraph [ref=e152]: Need a modern landing page with hero section and contact form
+              - generic [ref=e153]:
+                - generic [ref=e154]: Fixed price
+                - generic [ref=e155]: ·
+                - generic [ref=e156]: Client Taylor Reed
+                - generic [ref=e157]: ·
+                - generic [ref=e158]: Posted 7 min ago
+                - generic [ref=e159]: ·
+                - generic [ref=e160]: 16 days left
+              - generic [ref=e161]:
+                - generic [ref=e162]: React
+                - generic [ref=e163]: CSS
+                - generic [ref=e164]: Responsive Design
+              - generic [ref=e166]: Open
+            - generic [ref=e167]:
+              - generic [ref=e168]:
+                - generic [ref=e169]: $500
+                - generic [ref=e170]: Est. budget
+              - link "View job · Send proposal" [ref=e171]:
+                - /url: /projects/69f1b94d1ff7b1077cfe8f83
+          - article [ref=e172]:
+            - generic [ref=e173]:
+              - heading "Date Picker Test" [level=2] [ref=e174]:
+                - link "Date Picker Test" [ref=e175]:
+                  - /url: /projects/69f1b9141ff7b1077cfe8f82
+              - paragraph [ref=e176]: Test date picker functionality
+              - generic [ref=e177]:
+                - generic [ref=e178]: Fixed price
+                - generic [ref=e179]: ·
+                - generic [ref=e180]: Client Taylor Reed
+                - generic [ref=e181]: ·
+                - generic [ref=e182]: Posted 8 min ago
+                - generic [ref=e183]: ·
+                - generic [ref=e184]: 26 days left
+              - generic [ref=e186]: Date
+              - generic [ref=e188]: Open
+            - generic [ref=e189]:
+              - generic [ref=e190]:
+                - generic [ref=e191]: $100
+                - generic [ref=e192]: Est. budget
+              - link "View job · Send proposal" [ref=e193]:
+                - /url: /projects/69f1b9141ff7b1077cfe8f82
+          - article [ref=e194]:
+            - generic [ref=e195]:
+              - heading "Build responsive landing page" [level=2] [ref=e196]:
+                - link "Build responsive landing page" [ref=e197]:
+                  - /url: /projects/69f1b9081ff7b1077cfe8f81
+              - paragraph [ref=e198]: Need a modern landing page with hero section and contact form
+              - generic [ref=e199]:
+                - generic [ref=e200]: Fixed price
+                - generic [ref=e201]: ·
+                - generic [ref=e202]: Client Taylor Reed
+                - generic [ref=e203]: ·
+                - generic [ref=e204]: Posted 8 min ago
+                - generic [ref=e205]: ·
+                - generic [ref=e206]: 16 days left
+              - generic [ref=e207]:
+                - generic [ref=e208]: React
+                - generic [ref=e209]: CSS
+                - generic [ref=e210]: Responsive Design
+              - generic [ref=e212]: Open
+            - generic [ref=e213]:
+              - generic [ref=e214]:
+                - generic [ref=e215]: $500
+                - generic [ref=e216]: Est. budget
+              - link "View job · Send proposal" [ref=e217]:
+                - /url: /projects/69f1b9081ff7b1077cfe8f81
+          - article [ref=e218]:
+            - generic [ref=e219]:
+              - heading "API Development" [level=2] [ref=e220]:
+                - link "API Development" [ref=e221]:
+                  - /url: /projects/69f1b9051ff7b1077cfe8f80
+              - paragraph [ref=e222]: Build REST API
+              - generic [ref=e223]:
+                - generic [ref=e224]: Fixed price
+                - generic [ref=e225]: ·
+                - generic [ref=e226]: Client Taylor Reed
+                - generic [ref=e227]: ·
+                - generic [ref=e228]: Posted 8 min ago
+                - generic [ref=e229]: ·
+                - generic [ref=e230]: 21 days left
+              - generic [ref=e231]:
+                - generic [ref=e232]: Python
+                - generic [ref=e233]: Django
+                - generic [ref=e234]: REST
+              - generic [ref=e236]: Open
+            - generic [ref=e237]:
+              - generic [ref=e238]:
+                - generic [ref=e239]: $800
+                - generic [ref=e240]: Est. budget
+              - link "View job · Send proposal" [ref=e241]:
+                - /url: /projects/69f1b9051ff7b1077cfe8f80
+          - article [ref=e242]:
+            - generic [ref=e243]:
+              - heading "This is a very long title for a job posting that should be accepted" [level=2] [ref=e244]:
+                - link "This is a very long title for a job posting that should be accepted" [ref=e245]:
+                  - /url: /projects/69f1b8f81ff7b1077cfe8f7f
+              - paragraph [ref=e246]: "Description with line breaks: - Item 1 - Item 2 And some special characters: !@#$%^&*()_+{}[]|\\;:'\"<>,.?/~`"
+              - generic [ref=e247]:
+                - generic [ref=e248]: Fixed price
+                - generic [ref=e249]: ·
+                - generic [ref=e250]: Client Taylor Reed
+                - generic [ref=e251]: ·
+                - generic [ref=e252]: Posted 9 min ago
+                - generic [ref=e253]: ·
+                - generic [ref=e254]: 26 days left
+              - generic [ref=e255]:
+                - generic [ref=e256]: JavaScript
+                - generic [ref=e257]: Node.js
+                - generic [ref=e258]: PostgreSQL
+              - generic [ref=e260]: Open
+            - generic [ref=e261]:
+              - generic [ref=e262]:
+                - generic [ref=e263]: $2,500
+                - generic [ref=e264]: Est. budget
+              - link "View job · Send proposal" [ref=e265]:
+                - /url: /projects/69f1b8f81ff7b1077cfe8f7f
+          - article [ref=e266]:
+            - generic [ref=e267]:
+              - heading "Dummy for TC-008" [level=2] [ref=e268]:
+                - link "Dummy for TC-008" [ref=e269]:
+                  - /url: /projects/69f1b7ba0f97ac166a00dc9a
+              - paragraph [ref=e270]: d
+              - generic [ref=e271]:
+                - generic [ref=e272]: Fixed price
+                - generic [ref=e273]: ·
+                - generic [ref=e274]: Client Taylor Reed
+                - generic [ref=e275]: ·
+                - generic [ref=e276]: Posted 14 min ago
+                - generic [ref=e277]: ·
+                - generic [ref=e278]: 118d overdue
+              - generic [ref=e280]: d
+              - generic [ref=e282]: Open
+            - generic [ref=e283]:
+              - generic [ref=e284]:
+                - generic [ref=e285]: $1
+                - generic [ref=e286]: Est. budget
+              - link "View job · Send proposal" [ref=e287]:
+                - /url: /projects/69f1b7ba0f97ac166a00dc9a
+          - article [ref=e288]:
+            - generic [ref=e289]:
+              - heading "Project with Owner Email" [level=2] [ref=e290]:
+                - link "Project with Owner Email" [ref=e291]:
+                  - /url: /projects/69f1b7b90f97ac166a00dc99
+              - paragraph [ref=e292]: Test description
+              - generic [ref=e293]:
+                - generic [ref=e294]: Fixed price
+                - generic [ref=e295]: ·
+                - generic [ref=e296]: Client Taylor Reed
+                - generic [ref=e297]: ·
+                - generic [ref=e298]: Posted 14 min ago
+                - generic [ref=e299]: ·
+                - generic [ref=e300]: 16 days left
+              - generic [ref=e301]:
+                - generic [ref=e302]: Playwright
+                - generic [ref=e303]: Testing
+              - generic [ref=e305]: Open
+            - generic [ref=e306]:
+              - generic [ref=e307]:
+                - generic [ref=e308]: $100
+                - generic [ref=e309]: Est. budget
+              - link "View job · Send proposal" [ref=e310]:
+                - /url: /projects/69f1b7b90f97ac166a00dc99
+          - article [ref=e311]:
+            - generic [ref=e312]:
+              - heading "Date Picker Test" [level=2] [ref=e313]:
+                - link "Date Picker Test" [ref=e314]:
+                  - /url: /projects/69f1b7740f97ac166a00dc97
+              - paragraph [ref=e315]: Test date picker functionality
+              - generic [ref=e316]:
+                - generic [ref=e317]: Fixed price
+                - generic [ref=e318]: ·
+                - generic [ref=e319]: Client Taylor Reed
+                - generic [ref=e320]: ·
+                - generic [ref=e321]: Posted 15 min ago
+                - generic [ref=e322]: ·
+                - generic [ref=e323]: 26 days left
+              - generic [ref=e325]: Date
+              - generic [ref=e327]: Open
+            - generic [ref=e328]:
+              - generic [ref=e329]:
+                - generic [ref=e330]: $100
+                - generic [ref=e331]: Est. budget
+              - link "View job · Send proposal" [ref=e332]:
+                - /url: /projects/69f1b7740f97ac166a00dc97
+          - article [ref=e333]:
+            - generic [ref=e334]:
+              - heading "API Development" [level=2] [ref=e335]:
+                - link "API Development" [ref=e336]:
+                  - /url: /projects/69f1b7640f97ac166a00dc95
+              - paragraph [ref=e337]: Build REST API
+              - generic [ref=e338]:
+                - generic [ref=e339]: Fixed price
+                - generic [ref=e340]: ·
+                - generic [ref=e341]: Client Taylor Reed
+                - generic [ref=e342]: ·
+                - generic [ref=e343]: Posted 15 min ago
+                - generic [ref=e344]: ·
+                - generic [ref=e345]: 21 days left
+              - generic [ref=e346]:
+                - generic [ref=e347]: Python
+                - generic [ref=e348]: Django
+                - generic [ref=e349]: REST
+              - generic [ref=e351]: Open
+            - generic [ref=e352]:
+              - generic [ref=e353]:
+                - generic [ref=e354]: $800
+                - generic [ref=e355]: Est. budget
+              - link "View job · Send proposal" [ref=e356]:
+                - /url: /projects/69f1b7640f97ac166a00dc95
+          - article [ref=e357]:
+            - generic [ref=e358]:
+              - heading "This is a very long title for a job posting that should be accepted" [level=2] [ref=e359]:
+                - link "This is a very long title for a job posting that should be accepted" [ref=e360]:
+                  - /url: /projects/69f1b7540f97ac166a00dc93
+              - paragraph [ref=e361]: "Description with line breaks: - Item 1 - Item 2 And some special characters: !@#$%^&*()_+{}[]|\\;:'\"<>,.?/~`"
+              - generic [ref=e362]:
+                - generic [ref=e363]: Fixed price
+                - generic [ref=e364]: ·
+                - generic [ref=e365]: Client Taylor Reed
+                - generic [ref=e366]: ·
+                - generic [ref=e367]: Posted 16 min ago
+                - generic [ref=e368]: ·
+                - generic [ref=e369]: 26 days left
+              - generic [ref=e370]:
+                - generic [ref=e371]: JavaScript
+                - generic [ref=e372]: Node.js
+                - generic [ref=e373]: PostgreSQL
+              - generic [ref=e375]: Open
+            - generic [ref=e376]:
+              - generic [ref=e377]:
+                - generic [ref=e378]: $2,500
+                - generic [ref=e379]: Est. budget
+              - link "View job · Send proposal" [ref=e380]:
+                - /url: /projects/69f1b7540f97ac166a00dc93
+          - article [ref=e381]:
+            - generic [ref=e382]:
+              - heading "Mobile app UI design" [level=2] [ref=e383]:
+                - link "Mobile app UI design" [ref=e384]:
+                  - /url: /projects/69f1b7030f97ac166a00dc88
+              - paragraph [ref=e385]: Design 5 screens for iOS app
+              - generic [ref=e386]:
+                - generic [ref=e387]: Fixed price
+                - generic [ref=e388]: ·
+                - generic [ref=e389]: Client Taylor Reed
+                - generic [ref=e390]: ·
+                - generic [ref=e391]: Posted 17 min ago
+                - generic [ref=e392]: ·
+                - generic [ref=e393]: 33 days left
+              - generic [ref=e394]:
+                - generic [ref=e395]: Figma
+                - generic [ref=e396]: UI/UX
+                - generic [ref=e397]: iOS
+              - generic [ref=e399]: Open
+            - generic [ref=e400]:
+              - generic [ref=e401]:
+                - generic [ref=e402]: $1,200
+                - generic [ref=e403]: Est. budget
+              - link "View job · Send proposal" [ref=e404]:
+                - /url: /projects/69f1b7030f97ac166a00dc88
+          - article [ref=e405]:
+            - generic [ref=e406]:
+              - heading "Build responsive landing page" [level=2] [ref=e407]:
+                - link "Build responsive landing page" [ref=e408]:
+                  - /url: /projects/69f1b6de0f97ac166a00dc84
+              - paragraph [ref=e409]: Need a modern landing page with hero section and contact form
+              - generic [ref=e410]:
+                - generic [ref=e411]: Fixed price
+                - generic [ref=e412]: ·
+                - generic [ref=e413]: Client Taylor Reed
+                - generic [ref=e414]: ·
+                - generic [ref=e415]: Posted 17 min ago
+                - generic [ref=e416]: ·
+                - generic [ref=e417]: 16 days left
+              - generic [ref=e418]:
+                - generic [ref=e419]: React
+                - generic [ref=e420]: CSS
+                - generic [ref=e421]: Responsive Design
+              - generic [ref=e423]: Open
+            - generic [ref=e424]:
+              - generic [ref=e425]:
+                - generic [ref=e426]: $500
+                - generic [ref=e427]: Est. budget
+              - link "View job · Send proposal" [ref=e428]:
+                - /url: /projects/69f1b6de0f97ac166a00dc84
+          - article [ref=e429]:
+            - generic [ref=e430]:
+              - heading "Date Picker Test" [level=2] [ref=e431]:
+                - link "Date Picker Test" [ref=e432]:
+                  - /url: /projects/69f1b2430f97ac166a00dc3c
+              - paragraph [ref=e433]: Test date picker functionality
+              - generic [ref=e434]:
+                - generic [ref=e435]: Fixed price
+                - generic [ref=e436]: ·
+                - generic [ref=e437]: Client Taylor Reed
+                - generic [ref=e438]: ·
+                - generic [ref=e439]: Posted 37 min ago
+                - generic [ref=e440]: ·
+                - generic [ref=e441]: 26 days left
+              - generic [ref=e443]: Date
+              - generic [ref=e445]: Open
+            - generic [ref=e446]:
+              - generic [ref=e447]:
+                - generic [ref=e448]: $100
+                - generic [ref=e449]: Est. budget
+              - link "View job · Send proposal" [ref=e450]:
+                - /url: /projects/69f1b2430f97ac166a00dc3c
+          - article [ref=e451]:
+            - generic [ref=e452]:
+              - heading "API Development" [level=2] [ref=e453]:
+                - link "API Development" [ref=e454]:
+                  - /url: /projects/69f1b2360f97ac166a00dc3b
+              - paragraph [ref=e455]: Build REST API
+              - generic [ref=e456]:
+                - generic [ref=e457]: Fixed price
+                - generic [ref=e458]: ·
+                - generic [ref=e459]: Client Taylor Reed
+                - generic [ref=e460]: ·
+                - generic [ref=e461]: Posted 37 min ago
+                - generic [ref=e462]: ·
+                - generic [ref=e463]: 21 days left
+              - generic [ref=e464]:
+                - generic [ref=e465]: Python
+                - generic [ref=e466]: Django
+                - generic [ref=e467]: REST
+              - generic [ref=e469]: Open
+            - generic [ref=e470]:
+              - generic [ref=e471]:
+                - generic [ref=e472]: $800
+                - generic [ref=e473]: Est. budget
+              - link "View job · Send proposal" [ref=e474]:
+                - /url: /projects/69f1b2360f97ac166a00dc3b
+          - article [ref=e475]:
+            - generic [ref=e476]:
+              - heading "This is a very long title for a job posting that should be accepted" [level=2] [ref=e477]:
+                - link "This is a very long title for a job posting that should be accepted" [ref=e478]:
+                  - /url: /projects/69f1b22a0f97ac166a00dc3a
+              - paragraph [ref=e479]: "Description with line breaks: - Item 1 - Item 2 And some special characters: !@#$%^&*()_+{}[]|\\;:'\"<>,.?/~`"
+              - generic [ref=e480]:
+                - generic [ref=e481]: Fixed price
+                - generic [ref=e482]: ·
+                - generic [ref=e483]: Client Taylor Reed
+                - generic [ref=e484]: ·
+                - generic [ref=e485]: Posted 38 min ago
+                - generic [ref=e486]: ·
+                - generic [ref=e487]: 26 days left
+              - generic [ref=e488]:
+                - generic [ref=e489]: JavaScript
+                - generic [ref=e490]: Node.js
+                - generic [ref=e491]: PostgreSQL
+              - generic [ref=e493]: Open
+            - generic [ref=e494]:
+              - generic [ref=e495]:
+                - generic [ref=e496]: $2,500
+                - generic [ref=e497]: Est. budget
+              - link "View job · Send proposal" [ref=e498]:
+                - /url: /projects/69f1b22a0f97ac166a00dc3a
+          - article [ref=e499]:
+            - generic [ref=e500]:
+              - heading "Mobile app UI design" [level=2] [ref=e501]:
+                - link "Mobile app UI design" [ref=e502]:
+                  - /url: /projects/69f1b1ec0f97ac166a00dc39
+              - paragraph [ref=e503]: Design 5 screens for iOS app
+              - generic [ref=e504]:
+                - generic [ref=e505]: Fixed price
+                - generic [ref=e506]: ·
+                - generic [ref=e507]: Client Taylor Reed
+                - generic [ref=e508]: ·
+                - generic [ref=e509]: Posted 39 min ago
+                - generic [ref=e510]: ·
+                - generic [ref=e511]: 33 days left
+              - generic [ref=e512]:
+                - generic [ref=e513]: Figma
+                - generic [ref=e514]: UI/UX
+                - generic [ref=e515]: iOS
+              - generic [ref=e517]: Open
+            - generic [ref=e518]:
+              - generic [ref=e519]:
+                - generic [ref=e520]: $1,200
+                - generic [ref=e521]: Est. budget
+              - link "View job · Send proposal" [ref=e522]:
+                - /url: /projects/69f1b1ec0f97ac166a00dc39
+          - article [ref=e523]:
+            - generic [ref=e524]:
+              - heading "Build responsive landing page" [level=2] [ref=e525]:
+                - link "Build responsive landing page" [ref=e526]:
+                  - /url: /projects/69f1b1d00f97ac166a00dc38
+              - paragraph [ref=e527]: Need a modern landing page with hero section and contact form
+              - generic [ref=e528]:
+                - generic [ref=e529]: Fixed price
+                - generic [ref=e530]: ·
+                - generic [ref=e531]: Client Taylor Reed
+                - generic [ref=e532]: ·
+                - generic [ref=e533]: Posted 39 min ago
+                - generic [ref=e534]: ·
+                - generic [ref=e535]: 16 days left
+              - generic [ref=e536]:
+                - generic [ref=e537]: React
+                - generic [ref=e538]: CSS
+                - generic [ref=e539]: Responsive Design
+              - generic [ref=e541]: Open
+            - generic [ref=e542]:
+              - generic [ref=e543]:
+                - generic [ref=e544]: $500
+                - generic [ref=e545]: Est. budget
+              - link "View job · Send proposal" [ref=e546]:
+                - /url: /projects/69f1b1d00f97ac166a00dc38
+          - article [ref=e547]:
+            - generic [ref=e548]:
+              - heading "Date Picker Test" [level=2] [ref=e549]:
+                - link "Date Picker Test" [ref=e550]:
+                  - /url: /projects/69f1b01c0f97ac166a00dc37
+              - paragraph [ref=e551]: Test date picker functionality
+              - generic [ref=e552]:
+                - generic [ref=e553]: Fixed price
+                - generic [ref=e554]: ·
+                - generic [ref=e555]: Client Taylor Reed
+                - generic [ref=e556]: ·
+                - generic [ref=e557]: Posted 46 min ago
+                - generic [ref=e558]: ·
+                - generic [ref=e559]: 26 days left
+              - generic [ref=e561]: Date
+              - generic [ref=e563]: Open
+            - generic [ref=e564]:
+              - generic [ref=e565]:
+                - generic [ref=e566]: $100
+                - generic [ref=e567]: Est. budget
+              - link "View job · Send proposal" [ref=e568]:
+                - /url: /projects/69f1b01c0f97ac166a00dc37
+          - article [ref=e569]:
+            - generic [ref=e570]:
+              - heading "API Development" [level=2] [ref=e571]:
+                - link "API Development" [ref=e572]:
+                  - /url: /projects/69f1b00f0f97ac166a00dc36
+              - paragraph [ref=e573]: Build REST API
+              - generic [ref=e574]:
+                - generic [ref=e575]: Fixed price
+                - generic [ref=e576]: ·
+                - generic [ref=e577]: Client Taylor Reed
+                - generic [ref=e578]: ·
+                - generic [ref=e579]: Posted 47 min ago
+                - generic [ref=e580]: ·
+                - generic [ref=e581]: 21 days left
+              - generic [ref=e582]:
+                - generic [ref=e583]: Python
+                - generic [ref=e584]: Django
+                - generic [ref=e585]: REST
+              - generic [ref=e587]: Open
+            - generic [ref=e588]:
+              - generic [ref=e589]:
+                - generic [ref=e590]: $800
+                - generic [ref=e591]: Est. budget
+              - link "View job · Send proposal" [ref=e592]:
+                - /url: /projects/69f1b00f0f97ac166a00dc36
+          - article [ref=e593]:
+            - generic [ref=e594]:
+              - heading "This is a very long title for a job posting that should be accepted" [level=2] [ref=e595]:
+                - link "This is a very long title for a job posting that should be accepted" [ref=e596]:
+                  - /url: /projects/69f1b0030f97ac166a00dc35
+              - paragraph [ref=e597]: "Description with line breaks: - Item 1 - Item 2 And some special characters: !@#$%^&*()_+{}[]|\\;:'\"<>,.?/~`"
+              - generic [ref=e598]:
+                - generic [ref=e599]: Fixed price
+                - generic [ref=e600]: ·
+                - generic [ref=e601]: Client Taylor Reed
+                - generic [ref=e602]: ·
+                - generic [ref=e603]: Posted 47 min ago
+                - generic [ref=e604]: ·
+                - generic [ref=e605]: 26 days left
+              - generic [ref=e606]:
+                - generic [ref=e607]: JavaScript
+                - generic [ref=e608]: Node.js
+                - generic [ref=e609]: PostgreSQL
+              - generic [ref=e611]: Open
+            - generic [ref=e612]:
+              - generic [ref=e613]:
+                - generic [ref=e614]: $2,500
+                - generic [ref=e615]: Est. budget
+              - link "View job · Send proposal" [ref=e616]:
+                - /url: /projects/69f1b0030f97ac166a00dc35
+          - article [ref=e617]:
+            - generic [ref=e618]:
+              - heading "Mobile app UI design" [level=2] [ref=e619]:
+                - link "Mobile app UI design" [ref=e620]:
+                  - /url: /projects/69f1afc50f97ac166a00dc34
+              - paragraph [ref=e621]: Design 5 screens for iOS app
+              - generic [ref=e622]:
+                - generic [ref=e623]: Fixed price
+                - generic [ref=e624]: ·
+                - generic [ref=e625]: Client Taylor Reed
+                - generic [ref=e626]: ·
+                - generic [ref=e627]: Posted 48 min ago
+                - generic [ref=e628]: ·
+                - generic [ref=e629]: 33 days left
+              - generic [ref=e630]:
+                - generic [ref=e631]: Figma
+                - generic [ref=e632]: UI/UX
+                - generic [ref=e633]: iOS
+              - generic [ref=e635]: Open
+            - generic [ref=e636]:
+              - generic [ref=e637]:
+                - generic [ref=e638]: $1,200
+                - generic [ref=e639]: Est. budget
+              - link "View job · Send proposal" [ref=e640]:
+                - /url: /projects/69f1afc50f97ac166a00dc34
+          - article [ref=e641]:
+            - generic [ref=e642]:
+              - heading "Build responsive landing page" [level=2] [ref=e643]:
+                - link "Build responsive landing page" [ref=e644]:
+                  - /url: /projects/69f1afa80f97ac166a00dc33
+              - paragraph [ref=e645]: Need a modern landing page with hero section and contact form
+              - generic [ref=e646]:
+                - generic [ref=e647]: Fixed price
+                - generic [ref=e648]: ·
+                - generic [ref=e649]: Client Taylor Reed
+                - generic [ref=e650]: ·
+                - generic [ref=e651]: Posted 48 min ago
+                - generic [ref=e652]: ·
+                - generic [ref=e653]: 16 days left
+              - generic [ref=e654]:
+                - generic [ref=e655]: React
+                - generic [ref=e656]: CSS
+                - generic [ref=e657]: Responsive Design
+              - generic [ref=e659]: Open
+            - generic [ref=e660]:
+              - generic [ref=e661]:
+                - generic [ref=e662]: $500
+                - generic [ref=e663]: Est. budget
+              - link "View job · Send proposal" [ref=e664]:
+                - /url: /projects/69f1afa80f97ac166a00dc33
+          - article [ref=e665]:
+            - generic [ref=e666]:
+              - heading "Date Picker Test" [level=2] [ref=e667]:
+                - link "Date Picker Test" [ref=e668]:
+                  - /url: /projects/69f1aede0f97ac166a00dc32
+              - paragraph [ref=e669]: Test date picker functionality
+              - generic [ref=e670]:
+                - generic [ref=e671]: Fixed price
+                - generic [ref=e672]: ·
+                - generic [ref=e673]: Client Taylor Reed
+                - generic [ref=e674]: ·
+                - generic [ref=e675]: Posted 52 min ago
+                - generic [ref=e676]: ·
+                - generic [ref=e677]: 26 days left
+              - generic [ref=e679]: Date
+              - generic [ref=e681]: Open
+            - generic [ref=e682]:
+              - generic [ref=e683]:
+                - generic [ref=e684]: $100
+                - generic [ref=e685]: Est. budget
+              - link "View job · Send proposal" [ref=e686]:
+                - /url: /projects/69f1aede0f97ac166a00dc32
+          - article [ref=e687]:
+            - generic [ref=e688]:
+              - heading "API Development" [level=2] [ref=e689]:
+                - link "API Development" [ref=e690]:
+                  - /url: /projects/69f1aedc0f97ac166a00dc31
+              - paragraph [ref=e691]: Build REST API
+              - generic [ref=e692]:
+                - generic [ref=e693]: Fixed price
+                - generic [ref=e694]: ·
+                - generic [ref=e695]: Client Taylor Reed
+                - generic [ref=e696]: ·
+                - generic [ref=e697]: Posted 52 min ago
+                - generic [ref=e698]: ·
+                - generic [ref=e699]: 21 days left
+              - generic [ref=e700]:
+                - generic [ref=e701]: Python
+                - generic [ref=e702]: Django
+                - generic [ref=e703]: REST
+              - generic [ref=e705]: Open
+            - generic [ref=e706]:
+              - generic [ref=e707]:
+                - generic [ref=e708]: $800
+                - generic [ref=e709]: Est. budget
+              - link "View job · Send proposal" [ref=e710]:
+                - /url: /projects/69f1aedc0f97ac166a00dc31
+          - article [ref=e711]:
+            - generic [ref=e712]:
+              - heading "This is a very long title for a job posting that should be accepted" [level=2] [ref=e713]:
+                - link "This is a very long title for a job posting that should be accepted" [ref=e714]:
+                  - /url: /projects/69f1aeda0f97ac166a00dc30
+              - paragraph [ref=e715]: "Description with line breaks: - Item 1 - Item 2 And some special characters: !@#$%^&*()_+{}[]|\\;:'\"<>,.?/~`"
+              - generic [ref=e716]:
+                - generic [ref=e717]: Fixed price
+                - generic [ref=e718]: ·
+                - generic [ref=e719]: Client Taylor Reed
+                - generic [ref=e720]: ·
+                - generic [ref=e721]: Posted 52 min ago
+                - generic [ref=e722]: ·
+                - generic [ref=e723]: 26 days left
+              - generic [ref=e724]:
+                - generic [ref=e725]: JavaScript
+                - generic [ref=e726]: Node.js
+                - generic [ref=e727]: PostgreSQL
+              - generic [ref=e729]: Open
+            - generic [ref=e730]:
+              - generic [ref=e731]:
+                - generic [ref=e732]: $2,500
+                - generic [ref=e733]: Est. budget
+              - link "View job · Send proposal" [ref=e734]:
+                - /url: /projects/69f1aeda0f97ac166a00dc30
+          - article [ref=e735]:
+            - generic [ref=e736]:
+              - heading "Mobile app UI design" [level=2] [ref=e737]:
+                - link "Mobile app UI design" [ref=e738]:
+                  - /url: /projects/69f1aed00f97ac166a00dc2f
+              - paragraph [ref=e739]: Design 5 screens for iOS app
+              - generic [ref=e740]:
+                - generic [ref=e741]: Fixed price
+                - generic [ref=e742]: ·
+                - generic [ref=e743]: Client Taylor Reed
+                - generic [ref=e744]: ·
+                - generic [ref=e745]: Posted 52 min ago
+                - generic [ref=e746]: ·
+                - generic [ref=e747]: 33 days left
+              - generic [ref=e748]:
+                - generic [ref=e749]: Figma
+                - generic [ref=e750]: UI/UX
+                - generic [ref=e751]: iOS
+              - generic [ref=e753]: Open
+            - generic [ref=e754]:
+              - generic [ref=e755]:
+                - generic [ref=e756]: $1,200
+                - generic [ref=e757]: Est. budget
+              - link "View job · Send proposal" [ref=e758]:
+                - /url: /projects/69f1aed00f97ac166a00dc2f
+          - article [ref=e759]:
+            - generic [ref=e760]:
+              - heading "Build responsive landing page" [level=2] [ref=e761]:
+                - link "Build responsive landing page" [ref=e762]:
+                  - /url: /projects/69f1aecb0f97ac166a00dc2e
+              - paragraph [ref=e763]: Need a modern landing page with hero section and contact form
+              - generic [ref=e764]:
+                - generic [ref=e765]: Fixed price
+                - generic [ref=e766]: ·
+                - generic [ref=e767]: Client Taylor Reed
+                - generic [ref=e768]: ·
+                - generic [ref=e769]: Posted 52 min ago
+                - generic [ref=e770]: ·
+                - generic [ref=e771]: 16 days left
+              - generic [ref=e772]:
+                - generic [ref=e773]: React
+                - generic [ref=e774]: CSS
+                - generic [ref=e775]: Responsive Design
+              - generic [ref=e777]: Open
+            - generic [ref=e778]:
+              - generic [ref=e779]:
+                - generic [ref=e780]: $500
+                - generic [ref=e781]: Est. budget
+              - link "View job · Send proposal" [ref=e782]:
+                - /url: /projects/69f1aecb0f97ac166a00dc2e
+          - article [ref=e783]:
+            - generic [ref=e784]:
+              - heading "Date Picker Test" [level=2] [ref=e785]:
+                - link "Date Picker Test" [ref=e786]:
+                  - /url: /projects/69f1ad730f97ac166a00dc2d
+              - paragraph [ref=e787]: Test date picker functionality
+              - generic [ref=e788]:
+                - generic [ref=e789]: Fixed price
+                - generic [ref=e790]: ·
+                - generic [ref=e791]: Client Taylor Reed
+                - generic [ref=e792]: ·
+                - generic [ref=e793]: Posted 58 min ago
+                - generic [ref=e794]: ·
+                - generic [ref=e795]: 26 days left
+              - generic [ref=e797]: Date
+              - generic [ref=e799]: Open
+            - generic [ref=e800]:
+              - generic [ref=e801]:
+                - generic [ref=e802]: $100
+                - generic [ref=e803]: Est. budget
+              - link "View job · Send proposal" [ref=e804]:
+                - /url: /projects/69f1ad730f97ac166a00dc2d
+          - article [ref=e805]:
+            - generic [ref=e806]:
+              - heading "API Development" [level=2] [ref=e807]:
+                - link "API Development" [ref=e808]:
+                  - /url: /projects/69f1ad710f97ac166a00dc2c
+              - paragraph [ref=e809]: Build REST API
+              - generic [ref=e810]:
+                - generic [ref=e811]: Fixed price
+                - generic [ref=e812]: ·
+                - generic [ref=e813]: Client Taylor Reed
+                - generic [ref=e814]: ·
+                - generic [ref=e815]: Posted 58 min ago
+                - generic [ref=e816]: ·
+                - generic [ref=e817]: 21 days left
+              - generic [ref=e818]:
+                - generic [ref=e819]: Python
+                - generic [ref=e820]: Django
+                - generic [ref=e821]: REST
+              - generic [ref=e823]: Open
+            - generic [ref=e824]:
+              - generic [ref=e825]:
+                - generic [ref=e826]: $800
+                - generic [ref=e827]: Est. budget
+              - link "View job · Send proposal" [ref=e828]:
+                - /url: /projects/69f1ad710f97ac166a00dc2c
+          - article [ref=e829]:
+            - generic [ref=e830]:
+              - heading "This is a very long title for a job posting that should be accepted" [level=2] [ref=e831]:
+                - link "This is a very long title for a job posting that should be accepted" [ref=e832]:
+                  - /url: /projects/69f1ad6f0f97ac166a00dc2b
+              - paragraph [ref=e833]: "Description with line breaks: - Item 1 - Item 2 And some special characters: !@#$%^&*()_+{}[]|\\;:'\"<>,.?/~`"
+              - generic [ref=e834]:
+                - generic [ref=e835]: Fixed price
+                - generic [ref=e836]: ·
+                - generic [ref=e837]: Client Taylor Reed
+                - generic [ref=e838]: ·
+                - generic [ref=e839]: Posted 58 min ago
+                - generic [ref=e840]: ·
+                - generic [ref=e841]: 26 days left
+              - generic [ref=e842]:
+                - generic [ref=e843]: JavaScript
+                - generic [ref=e844]: Node.js
+                - generic [ref=e845]: PostgreSQL
+              - generic [ref=e847]: Open
+            - generic [ref=e848]:
+              - generic [ref=e849]:
+                - generic [ref=e850]: $2,500
+                - generic [ref=e851]: Est. budget
+              - link "View job · Send proposal" [ref=e852]:
+                - /url: /projects/69f1ad6f0f97ac166a00dc2b
+          - article [ref=e853]:
+            - generic [ref=e854]:
+              - heading "Mobile app UI design" [level=2] [ref=e855]:
+                - link "Mobile app UI design" [ref=e856]:
+                  - /url: /projects/69f1ad650f97ac166a00dc2a
+              - paragraph [ref=e857]: Design 5 screens for iOS app
+              - generic [ref=e858]:
+                - generic [ref=e859]: Fixed price
+                - generic [ref=e860]: ·
+                - generic [ref=e861]: Client Taylor Reed
+                - generic [ref=e862]: ·
+                - generic [ref=e863]: Posted 58 min ago
+                - generic [ref=e864]: ·
+                - generic [ref=e865]: 33 days left
+              - generic [ref=e866]:
+                - generic [ref=e867]: Figma
+                - generic [ref=e868]: UI/UX
+                - generic [ref=e869]: iOS
+              - generic [ref=e871]: Open
+            - generic [ref=e872]:
+              - generic [ref=e873]:
+                - generic [ref=e874]: $1,200
+                - generic [ref=e875]: Est. budget
+              - link "View job · Send proposal" [ref=e876]:
+                - /url: /projects/69f1ad650f97ac166a00dc2a
+          - article [ref=e877]:
+            - generic [ref=e878]:
+              - heading "Build responsive landing page" [level=2] [ref=e879]:
+                - link "Build responsive landing page" [ref=e880]:
+                  - /url: /projects/69f1ad610f97ac166a00dc29
+              - paragraph [ref=e881]: Need a modern landing page with hero section and contact form
+              - generic [ref=e882]:
+                - generic [ref=e883]: Fixed price
+                - generic [ref=e884]: ·
+                - generic [ref=e885]: Client Taylor Reed
+                - generic [ref=e886]: ·
+                - generic [ref=e887]: Posted 58 min ago
+                - generic [ref=e888]: ·
+                - generic [ref=e889]: 16 days left
+              - generic [ref=e890]:
+                - generic [ref=e891]: React
+                - generic [ref=e892]: CSS
+                - generic [ref=e893]: Responsive Design
+              - generic [ref=e895]: Open
+            - generic [ref=e896]:
+              - generic [ref=e897]:
+                - generic [ref=e898]: $500
+                - generic [ref=e899]: Est. budget
+              - link "View job · Send proposal" [ref=e900]:
+                - /url: /projects/69f1ad610f97ac166a00dc29
+          - article [ref=e901]:
+            - generic [ref=e902]:
+              - heading "Date Picker Test" [level=2] [ref=e903]:
+                - link "Date Picker Test" [ref=e904]:
+                  - /url: /projects/69f1a37d0f97ac166a00dc28
+              - paragraph [ref=e905]: Test date picker functionality
+              - generic [ref=e906]:
+                - generic [ref=e907]: Fixed price
+                - generic [ref=e908]: ·
+                - generic [ref=e909]: Client Taylor Reed
+                - generic [ref=e910]: ·
+                - generic [ref=e911]: Posted 1 hr ago
+                - generic [ref=e912]: ·
+                - generic [ref=e913]: 26 days left
+              - generic [ref=e915]: Date
+              - generic [ref=e917]: Open
+            - generic [ref=e918]:
+              - generic [ref=e919]:
+                - generic [ref=e920]: $100
+                - generic [ref=e921]: Est. budget
+              - link "View job · Send proposal" [ref=e922]:
+                - /url: /projects/69f1a37d0f97ac166a00dc28
+          - article [ref=e923]:
+            - generic [ref=e924]:
+              - heading "API Development" [level=2] [ref=e925]:
+                - link "API Development" [ref=e926]:
+                  - /url: /projects/69f1a37b0f97ac166a00dc27
+              - paragraph [ref=e927]: Build REST API
+              - generic [ref=e928]:
+                - generic [ref=e929]: Fixed price
+                - generic [ref=e930]: ·
+                - generic [ref=e931]: Client Taylor Reed
+                - generic [ref=e932]: ·
+                - generic [ref=e933]: Posted 1 hr ago
+                - generic [ref=e934]: ·
+                - generic [ref=e935]: 21 days left
+              - generic [ref=e936]:
+                - generic [ref=e937]: Python
+                - generic [ref=e938]: Django
+                - generic [ref=e939]: REST
+              - generic [ref=e941]: Open
+            - generic [ref=e942]:
+              - generic [ref=e943]:
+                - generic [ref=e944]: $800
+                - generic [ref=e945]: Est. budget
+              - link "View job · Send proposal" [ref=e946]:
+                - /url: /projects/69f1a37b0f97ac166a00dc27
+          - article [ref=e947]:
+            - generic [ref=e948]:
+              - heading "This is a very long title for a job posting that should be accepted" [level=2] [ref=e949]:
+                - link "This is a very long title for a job posting that should be accepted" [ref=e950]:
+                  - /url: /projects/69f1a3790f97ac166a00dc26
+              - paragraph [ref=e951]: "Description with line breaks: - Item 1 - Item 2 And some special characters: !@#$%^&*()_+{}[]|\\;:'\"<>,.?/~`"
+              - generic [ref=e952]:
+                - generic [ref=e953]: Fixed price
+                - generic [ref=e954]: ·
+                - generic [ref=e955]: Client Taylor Reed
+                - generic [ref=e956]: ·
+                - generic [ref=e957]: Posted 1 hr ago
+                - generic [ref=e958]: ·
+                - generic [ref=e959]: 26 days left
+              - generic [ref=e960]:
+                - generic [ref=e961]: JavaScript
+                - generic [ref=e962]: Node.js
+                - generic [ref=e963]: PostgreSQL
+              - generic [ref=e965]: Open
+            - generic [ref=e966]:
+              - generic [ref=e967]:
+                - generic [ref=e968]: $2,500
+                - generic [ref=e969]: Est. budget
+              - link "View job · Send proposal" [ref=e970]:
+                - /url: /projects/69f1a3790f97ac166a00dc26
+          - article [ref=e971]:
+            - generic [ref=e972]:
+              - heading "Mobile app UI design" [level=2] [ref=e973]:
+                - link "Mobile app UI design" [ref=e974]:
+                  - /url: /projects/69f1a36f0f97ac166a00dc25
+              - paragraph [ref=e975]: Design 5 screens for iOS app
+              - generic [ref=e976]:
+                - generic [ref=e977]: Fixed price
+                - generic [ref=e978]: ·
+                - generic [ref=e979]: Client Taylor Reed
+                - generic [ref=e980]: ·
+                - generic [ref=e981]: Posted 1 hr ago
+                - generic [ref=e982]: ·
+                - generic [ref=e983]: 33 days left
+              - generic [ref=e984]:
+                - generic [ref=e985]: Figma
+                - generic [ref=e986]: UI/UX
+                - generic [ref=e987]: iOS
+              - generic [ref=e989]: Open
+            - generic [ref=e990]:
+              - generic [ref=e991]:
+                - generic [ref=e992]: $1,200
+                - generic [ref=e993]: Est. budget
+              - link "View job · Send proposal" [ref=e994]:
+                - /url: /projects/69f1a36f0f97ac166a00dc25
+          - article [ref=e995]:
+            - generic [ref=e996]:
+              - heading "Build responsive landing page" [level=2] [ref=e997]:
+                - link "Build responsive landing page" [ref=e998]:
+                  - /url: /projects/69f1a36a0f97ac166a00dc24
+              - paragraph [ref=e999]: Need a modern landing page with hero section and contact form
+              - generic [ref=e1000]:
+                - generic [ref=e1001]: Fixed price
+                - generic [ref=e1002]: ·
+                - generic [ref=e1003]: Client Taylor Reed
+                - generic [ref=e1004]: ·
+                - generic [ref=e1005]: Posted 1 hr ago
+                - generic [ref=e1006]: ·
+                - generic [ref=e1007]: 16 days left
+              - generic [ref=e1008]:
+                - generic [ref=e1009]: React
+                - generic [ref=e1010]: CSS
+                - generic [ref=e1011]: Responsive Design
+              - generic [ref=e1013]: Open
+            - generic [ref=e1014]:
+              - generic [ref=e1015]:
+                - generic [ref=e1016]: $500
+                - generic [ref=e1017]: Est. budget
+              - link "View job · Send proposal" [ref=e1018]:
+                - /url: /projects/69f1a36a0f97ac166a00dc24
+          - article [ref=e1019]:
+            - generic [ref=e1020]:
+              - heading "Date Picker Test" [level=2] [ref=e1021]:
+                - link "Date Picker Test" [ref=e1022]:
+                  - /url: /projects/69f1a2880f97ac166a00dc23
+              - paragraph [ref=e1023]: Test date picker functionality
+              - generic [ref=e1024]:
+                - generic [ref=e1025]: Fixed price
+                - generic [ref=e1026]: ·
+                - generic [ref=e1027]: Client Taylor Reed
+                - generic [ref=e1028]: ·
+                - generic [ref=e1029]: Posted 1 hr ago
+                - generic [ref=e1030]: ·
+                - generic [ref=e1031]: 26 days left
+              - generic [ref=e1033]: Date
+              - generic [ref=e1035]: Open
+            - generic [ref=e1036]:
+              - generic [ref=e1037]:
+                - generic [ref=e1038]: $100
+                - generic [ref=e1039]: Est. budget
+              - link "View job · Send proposal" [ref=e1040]:
+                - /url: /projects/69f1a2880f97ac166a00dc23
+          - article [ref=e1041]:
+            - generic [ref=e1042]:
+              - heading "API Development" [level=2] [ref=e1043]:
+                - link "API Development" [ref=e1044]:
+                  - /url: /projects/69f1a2860f97ac166a00dc22
+              - paragraph [ref=e1045]: Build REST API
+              - generic [ref=e1046]:
+                - generic [ref=e1047]: Fixed price
+                - generic [ref=e1048]: ·
+                - generic [ref=e1049]: Client Taylor Reed
+                - generic [ref=e1050]: ·
+                - generic [ref=e1051]: Posted 1 hr ago
+                - generic [ref=e1052]: ·
+                - generic [ref=e1053]: 21 days left
+              - generic [ref=e1054]:
+                - generic [ref=e1055]: Python
+                - generic [ref=e1056]: Django
+                - generic [ref=e1057]: REST
+              - generic [ref=e1059]: Open
+            - generic [ref=e1060]:
+              - generic [ref=e1061]:
+                - generic [ref=e1062]: $800
+                - generic [ref=e1063]: Est. budget
+              - link "View job · Send proposal" [ref=e1064]:
+                - /url: /projects/69f1a2860f97ac166a00dc22
+          - article [ref=e1065]:
+            - generic [ref=e1066]:
+              - heading "This is a very long title for a job posting that should be accepted" [level=2] [ref=e1067]:
+                - link "This is a very long title for a job posting that should be accepted" [ref=e1068]:
+                  - /url: /projects/69f1a2850f97ac166a00dc21
+              - paragraph [ref=e1069]: "Description with line breaks: - Item 1 - Item 2 And some special characters: !@#$%^&*()_+{}[]|\\;:'\"<>,.?/~`"
+              - generic [ref=e1070]:
+                - generic [ref=e1071]: Fixed price
+                - generic [ref=e1072]: ·
+                - generic [ref=e1073]: Client Taylor Reed
+                - generic [ref=e1074]: ·
+                - generic [ref=e1075]: Posted 1 hr ago
+                - generic [ref=e1076]: ·
+                - generic [ref=e1077]: 26 days left
+              - generic [ref=e1078]:
+                - generic [ref=e1079]: JavaScript
+                - generic [ref=e1080]: Node.js
+                - generic [ref=e1081]: PostgreSQL
+              - generic [ref=e1083]: Open
+            - generic [ref=e1084]:
+              - generic [ref=e1085]:
+                - generic [ref=e1086]: $2,500
+                - generic [ref=e1087]: Est. budget
+              - link "View job · Send proposal" [ref=e1088]:
+                - /url: /projects/69f1a2850f97ac166a00dc21
+          - article [ref=e1089]:
+            - generic [ref=e1090]:
+              - heading "Mobile app UI design" [level=2] [ref=e1091]:
+                - link "Mobile app UI design" [ref=e1092]:
+                  - /url: /projects/69f1a27d0f97ac166a00dc20
+              - paragraph [ref=e1093]: Design 5 screens for iOS app
+              - generic [ref=e1094]:
+                - generic [ref=e1095]: Fixed price
+                - generic [ref=e1096]: ·
+                - generic [ref=e1097]: Client Taylor Reed
+                - generic [ref=e1098]: ·
+                - generic [ref=e1099]: Posted 1 hr ago
+                - generic [ref=e1100]: ·
+                - generic [ref=e1101]: 33 days left
+              - generic [ref=e1102]:
+                - generic [ref=e1103]: Figma
+                - generic [ref=e1104]: UI/UX
+                - generic [ref=e1105]: iOS
+              - generic [ref=e1107]: Open
+            - generic [ref=e1108]:
+              - generic [ref=e1109]:
+                - generic [ref=e1110]: $1,200
+                - generic [ref=e1111]: Est. budget
+              - link "View job · Send proposal" [ref=e1112]:
+                - /url: /projects/69f1a27d0f97ac166a00dc20
+          - article [ref=e1113]:
+            - generic [ref=e1114]:
+              - heading "Build responsive landing page" [level=2] [ref=e1115]:
+                - link "Build responsive landing page" [ref=e1116]:
+                  - /url: /projects/69f1a2790f97ac166a00dc1f
+              - paragraph [ref=e1117]: Need a modern landing page with hero section and contact form
+              - generic [ref=e1118]:
+                - generic [ref=e1119]: Fixed price
+                - generic [ref=e1120]: ·
+                - generic [ref=e1121]: Client Taylor Reed
+                - generic [ref=e1122]: ·
+                - generic [ref=e1123]: Posted 1 hr ago
+                - generic [ref=e1124]: ·
+                - generic [ref=e1125]: 16 days left
+              - generic [ref=e1126]:
+                - generic [ref=e1127]: React
+                - generic [ref=e1128]: CSS
+                - generic [ref=e1129]: Responsive Design
+              - generic [ref=e1131]: Open
+            - generic [ref=e1132]:
+              - generic [ref=e1133]:
+                - generic [ref=e1134]: $500
+                - generic [ref=e1135]: Est. budget
+              - link "View job · Send proposal" [ref=e1136]:
+                - /url: /projects/69f1a2790f97ac166a00dc1f
+          - article [ref=e1137]:
+            - generic [ref=e1138]:
+              - heading "API Development" [level=2] [ref=e1139]:
+                - link "API Development" [ref=e1140]:
+                  - /url: /projects/69f1a2700f97ac166a00dc1e
+              - paragraph [ref=e1141]: Build REST API
+              - generic [ref=e1142]:
+                - generic [ref=e1143]: Fixed price
+                - generic [ref=e1144]: ·
+                - generic [ref=e1145]: Client Taylor Reed
+                - generic [ref=e1146]: ·
+                - generic [ref=e1147]: Posted 1 hr ago
+                - generic [ref=e1148]: ·
+                - generic [ref=e1149]: 21 days left
+              - generic [ref=e1150]:
+                - generic [ref=e1151]: Python
+                - generic [ref=e1152]: Django
+                - generic [ref=e1153]: REST
+              - generic [ref=e1155]: Open
+            - generic [ref=e1156]:
+              - generic [ref=e1157]:
+                - generic [ref=e1158]: $800
+                - generic [ref=e1159]: Est. budget
+              - link "View job · Send proposal" [ref=e1160]:
+                - /url: /projects/69f1a2700f97ac166a00dc1e
+          - article [ref=e1161]:
+            - generic [ref=e1162]:
+              - heading "This is a very long title for a job posting that should be accepted" [level=2] [ref=e1163]:
+                - link "This is a very long title for a job posting that should be accepted" [ref=e1164]:
+                  - /url: /projects/69f1a26e0f97ac166a00dc1d
+              - paragraph [ref=e1165]: "Description with line breaks: - Item 1 - Item 2 And some special characters: !@#$%^&*()_+{}[]|\\;:'\"<>,.?/~`"
+              - generic [ref=e1166]:
+                - generic [ref=e1167]: Fixed price
+                - generic [ref=e1168]: ·
+                - generic [ref=e1169]: Client Taylor Reed
+                - generic [ref=e1170]: ·
+                - generic [ref=e1171]: Posted 1 hr ago
+                - generic [ref=e1172]: ·
+                - generic [ref=e1173]: 26 days left
+              - generic [ref=e1174]:
+                - generic [ref=e1175]: JavaScript
+                - generic [ref=e1176]: Node.js
+                - generic [ref=e1177]: PostgreSQL
+              - generic [ref=e1179]: Open
+            - generic [ref=e1180]:
+              - generic [ref=e1181]:
+                - generic [ref=e1182]: $2,500
+                - generic [ref=e1183]: Est. budget
+              - link "View job · Send proposal" [ref=e1184]:
+                - /url: /projects/69f1a26e0f97ac166a00dc1d
+          - article [ref=e1185]:
+            - generic [ref=e1186]:
+              - heading "Mobile app UI design" [level=2] [ref=e1187]:
+                - link "Mobile app UI design" [ref=e1188]:
+                  - /url: /projects/69f1a2660f97ac166a00dc1c
+              - paragraph [ref=e1189]: Design 5 screens for iOS app
+              - generic [ref=e1190]:
+                - generic [ref=e1191]: Fixed price
+                - generic [ref=e1192]: ·
+                - generic [ref=e1193]: Client Taylor Reed
+                - generic [ref=e1194]: ·
+                - generic [ref=e1195]: Posted 1 hr ago
+                - generic [ref=e1196]: ·
+                - generic [ref=e1197]: 33 days left
+              - generic [ref=e1198]:
+                - generic [ref=e1199]: Figma
+                - generic [ref=e1200]: UI/UX
+                - generic [ref=e1201]: iOS
+              - generic [ref=e1203]: Open
+            - generic [ref=e1204]:
+              - generic [ref=e1205]:
+                - generic [ref=e1206]: $1,200
+                - generic [ref=e1207]: Est. budget
+              - link "View job · Send proposal" [ref=e1208]:
+                - /url: /projects/69f1a2660f97ac166a00dc1c
+          - article [ref=e1209]:
+            - generic [ref=e1210]:
+              - heading "Build responsive landing page" [level=2] [ref=e1211]:
+                - link "Build responsive landing page" [ref=e1212]:
+                  - /url: /projects/69f1a2630f97ac166a00dc1b
+              - paragraph [ref=e1213]: Need a modern landing page with hero section and contact form
+              - generic [ref=e1214]:
+                - generic [ref=e1215]: Fixed price
+                - generic [ref=e1216]: ·
+                - generic [ref=e1217]: Client Taylor Reed
+                - generic [ref=e1218]: ·
+                - generic [ref=e1219]: Posted 1 hr ago
+                - generic [ref=e1220]: ·
+                - generic [ref=e1221]: 16 days left
+              - generic [ref=e1222]:
+                - generic [ref=e1223]: React
+                - generic [ref=e1224]: CSS
+                - generic [ref=e1225]: Responsive Design
+              - generic [ref=e1227]: Open
+            - generic [ref=e1228]:
+              - generic [ref=e1229]:
+                - generic [ref=e1230]: $500
+                - generic [ref=e1231]: Est. budget
+              - link "View job · Send proposal" [ref=e1232]:
+                - /url: /projects/69f1a2630f97ac166a00dc1b
+          - article [ref=e1233]:
+            - generic [ref=e1234]:
+              - heading "Date Picker Test" [level=2] [ref=e1235]:
+                - link "Date Picker Test" [ref=e1236]:
+                  - /url: /projects/69f1a1c60f97ac166a00dc1a
+              - paragraph [ref=e1237]: Test date picker functionality
+              - generic [ref=e1238]:
+                - generic [ref=e1239]: Fixed price
+                - generic [ref=e1240]: ·
+                - generic [ref=e1241]: Client Taylor Reed
+                - generic [ref=e1242]: ·
+                - generic [ref=e1243]: Posted 1 hr ago
+                - generic [ref=e1244]: ·
+                - generic [ref=e1245]: 26 days left
+              - generic [ref=e1247]: Date
+              - generic [ref=e1249]: Open
+            - generic [ref=e1250]:
+              - generic [ref=e1251]:
+                - generic [ref=e1252]: $100
+                - generic [ref=e1253]: Est. budget
+              - link "View job · Send proposal" [ref=e1254]:
+                - /url: /projects/69f1a1c60f97ac166a00dc1a
+          - article [ref=e1255]:
+            - generic [ref=e1256]:
+              - heading "API Development" [level=2] [ref=e1257]:
+                - link "API Development" [ref=e1258]:
+                  - /url: /projects/69f1a1c50f97ac166a00dc19
+              - paragraph [ref=e1259]: Build REST API
+              - generic [ref=e1260]:
+                - generic [ref=e1261]: Fixed price
+                - generic [ref=e1262]: ·
+                - generic [ref=e1263]: Client Taylor Reed
+                - generic [ref=e1264]: ·
+                - generic [ref=e1265]: Posted 1 hr ago
+                - generic [ref=e1266]: ·
+                - generic [ref=e1267]: 21 days left
+              - generic [ref=e1268]:
+                - generic [ref=e1269]: Python
+                - generic [ref=e1270]: Django
+                - generic [ref=e1271]: REST
+              - generic [ref=e1273]: Open
+            - generic [ref=e1274]:
+              - generic [ref=e1275]:
+                - generic [ref=e1276]: $800
+                - generic [ref=e1277]: Est. budget
+              - link "View job · Send proposal" [ref=e1278]:
+                - /url: /projects/69f1a1c50f97ac166a00dc19
+          - article [ref=e1279]:
+            - generic [ref=e1280]:
+              - heading "This is a very long title for a job posting that should be accepted" [level=2] [ref=e1281]:
+                - link "This is a very long title for a job posting that should be accepted" [ref=e1282]:
+                  - /url: /projects/69f1a1c30f97ac166a00dc18
+              - paragraph [ref=e1283]: "Description with line breaks: - Item 1 - Item 2 And some special characters: !@#$%^&*()_+{}[]|\\;:'\"<>,.?/~`"
+              - generic [ref=e1284]:
+                - generic [ref=e1285]: Fixed price
+                - generic [ref=e1286]: ·
+                - generic [ref=e1287]: Client Taylor Reed
+                - generic [ref=e1288]: ·
+                - generic [ref=e1289]: Posted 1 hr ago
+                - generic [ref=e1290]: ·
+                - generic [ref=e1291]: 26 days left
+              - generic [ref=e1292]:
+                - generic [ref=e1293]: JavaScript
+                - generic [ref=e1294]: Node.js
+                - generic [ref=e1295]: PostgreSQL
+              - generic [ref=e1297]: Open
+            - generic [ref=e1298]:
+              - generic [ref=e1299]:
+                - generic [ref=e1300]: $2,500
+                - generic [ref=e1301]: Est. budget
+              - link "View job · Send proposal" [ref=e1302]:
+                - /url: /projects/69f1a1c30f97ac166a00dc18
+          - article [ref=e1303]:
+            - generic [ref=e1304]:
+              - heading "Mobile app UI design" [level=2] [ref=e1305]:
+                - link "Mobile app UI design" [ref=e1306]:
+                  - /url: /projects/69f1a1bb0f97ac166a00dc17
+              - paragraph [ref=e1307]: Design 5 screens for iOS app
+              - generic [ref=e1308]:
+                - generic [ref=e1309]: Fixed price
+                - generic [ref=e1310]: ·
+                - generic [ref=e1311]: Client Taylor Reed
+                - generic [ref=e1312]: ·
+                - generic [ref=e1313]: Posted 1 hr ago
+                - generic [ref=e1314]: ·
+                - generic [ref=e1315]: 33 days left
+              - generic [ref=e1316]:
+                - generic [ref=e1317]: Figma
+                - generic [ref=e1318]: UI/UX
+                - generic [ref=e1319]: iOS
+              - generic [ref=e1321]: Open
+            - generic [ref=e1322]:
+              - generic [ref=e1323]:
+                - generic [ref=e1324]: $1,200
+                - generic [ref=e1325]: Est. budget
+              - link "View job · Send proposal" [ref=e1326]:
+                - /url: /projects/69f1a1bb0f97ac166a00dc17
+          - article [ref=e1327]:
+            - generic [ref=e1328]:
+              - heading "Build responsive landing page" [level=2] [ref=e1329]:
+                - link "Build responsive landing page" [ref=e1330]:
+                  - /url: /projects/69f1a1b70f97ac166a00dc16
+              - paragraph [ref=e1331]: Need a modern landing page with hero section and contact form
+              - generic [ref=e1332]:
+                - generic [ref=e1333]: Fixed price
+                - generic [ref=e1334]: ·
+                - generic [ref=e1335]: Client Taylor Reed
+                - generic [ref=e1336]: ·
+                - generic [ref=e1337]: Posted 1 hr ago
+                - generic [ref=e1338]: ·
+                - generic [ref=e1339]: 16 days left
+              - generic [ref=e1340]:
+                - generic [ref=e1341]: React
+                - generic [ref=e1342]: CSS
+                - generic [ref=e1343]: Responsive Design
+              - generic [ref=e1345]: Open
+            - generic [ref=e1346]:
+              - generic [ref=e1347]:
+                - generic [ref=e1348]: $500
+                - generic [ref=e1349]: Est. budget
+              - link "View job · Send proposal" [ref=e1350]:
+                - /url: /projects/69f1a1b70f97ac166a00dc16
+          - article [ref=e1351]:
+            - generic [ref=e1352]:
+              - heading "Date Picker Test" [level=2] [ref=e1353]:
+                - link "Date Picker Test" [ref=e1354]:
+                  - /url: /projects/69f1a0dd0f97ac166a00dc15
+              - paragraph [ref=e1355]: Test date picker functionality
+              - generic [ref=e1356]:
+                - generic [ref=e1357]: Fixed price
+                - generic [ref=e1358]: ·
+                - generic [ref=e1359]: Client Taylor Reed
+                - generic [ref=e1360]: ·
+                - generic [ref=e1361]: Posted 1 hr ago
+                - generic [ref=e1362]: ·
+                - generic [ref=e1363]: 26 days left
+              - generic [ref=e1365]: Date
+              - generic [ref=e1367]: Open
+            - generic [ref=e1368]:
+              - generic [ref=e1369]:
+                - generic [ref=e1370]: $100
+                - generic [ref=e1371]: Est. budget
+              - link "View job · Send proposal" [ref=e1372]:
+                - /url: /projects/69f1a0dd0f97ac166a00dc15
+          - article [ref=e1373]:
+            - generic [ref=e1374]:
+              - heading "API Development" [level=2] [ref=e1375]:
+                - link "API Development" [ref=e1376]:
+                  - /url: /projects/69f1a0db0f97ac166a00dc14
+              - paragraph [ref=e1377]: Build REST API
+              - generic [ref=e1378]:
+                - generic [ref=e1379]: Fixed price
+                - generic [ref=e1380]: ·
+                - generic [ref=e1381]: Client Taylor Reed
+                - generic [ref=e1382]: ·
+                - generic [ref=e1383]: Posted 1 hr ago
+                - generic [ref=e1384]: ·
+                - generic [ref=e1385]: 21 days left
+              - generic [ref=e1386]:
+                - generic [ref=e1387]: Python
+                - generic [ref=e1388]: Django
+                - generic [ref=e1389]: REST
+              - generic [ref=e1391]: Open
+            - generic [ref=e1392]:
+              - generic [ref=e1393]:
+                - generic [ref=e1394]: $800
+                - generic [ref=e1395]: Est. budget
+              - link "View job · Send proposal" [ref=e1396]:
+                - /url: /projects/69f1a0db0f97ac166a00dc14
+          - article [ref=e1397]:
+            - generic [ref=e1398]:
+              - heading "This is a very long title for a job posting that should be accepted" [level=2] [ref=e1399]:
+                - link "This is a very long title for a job posting that should be accepted" [ref=e1400]:
+                  - /url: /projects/69f1a0da0f97ac166a00dc13
+              - paragraph [ref=e1401]: "Description with line breaks: - Item 1 - Item 2 And some special characters: !@#$%^&*()_+{}[]|\\;:'\"<>,.?/~`"
+              - generic [ref=e1402]:
+                - generic [ref=e1403]: Fixed price
+                - generic [ref=e1404]: ·
+                - generic [ref=e1405]: Client Taylor Reed
+                - generic [ref=e1406]: ·
+                - generic [ref=e1407]: Posted 1 hr ago
+                - generic [ref=e1408]: ·
+                - generic [ref=e1409]: 26 days left
+              - generic [ref=e1410]:
+                - generic [ref=e1411]: JavaScript
+                - generic [ref=e1412]: Node.js
+                - generic [ref=e1413]: PostgreSQL
+              - generic [ref=e1415]: Open
+            - generic [ref=e1416]:
+              - generic [ref=e1417]:
+                - generic [ref=e1418]: $2,500
+                - generic [ref=e1419]: Est. budget
+              - link "View job · Send proposal" [ref=e1420]:
+                - /url: /projects/69f1a0da0f97ac166a00dc13
+          - article [ref=e1421]:
+            - generic [ref=e1422]:
+              - heading "Mobile app UI design" [level=2] [ref=e1423]:
+                - link "Mobile app UI design" [ref=e1424]:
+                  - /url: /projects/69f1a0d20f97ac166a00dc12
+              - paragraph [ref=e1425]: Design 5 screens for iOS app
+              - generic [ref=e1426]:
+                - generic [ref=e1427]: Fixed price
+                - generic [ref=e1428]: ·
+                - generic [ref=e1429]: Client Taylor Reed
+                - generic [ref=e1430]: ·
+                - generic [ref=e1431]: Posted 1 hr ago
+                - generic [ref=e1432]: ·
+                - generic [ref=e1433]: 33 days left
+              - generic [ref=e1434]:
+                - generic [ref=e1435]: Figma
+                - generic [ref=e1436]: UI/UX
+                - generic [ref=e1437]: iOS
+              - generic [ref=e1439]: Open
+            - generic [ref=e1440]:
+              - generic [ref=e1441]:
+                - generic [ref=e1442]: $1,200
+                - generic [ref=e1443]: Est. budget
+              - link "View job · Send proposal" [ref=e1444]:
+                - /url: /projects/69f1a0d20f97ac166a00dc12
+          - article [ref=e1445]:
+            - generic [ref=e1446]:
+              - heading "Build responsive landing page" [level=2] [ref=e1447]:
+                - link "Build responsive landing page" [ref=e1448]:
+                  - /url: /projects/69f1a0cf0f97ac166a00dc11
+              - paragraph [ref=e1449]: Need a modern landing page with hero section and contact form
+              - generic [ref=e1450]:
+                - generic [ref=e1451]: Fixed price
+                - generic [ref=e1452]: ·
+                - generic [ref=e1453]: Client Taylor Reed
+                - generic [ref=e1454]: ·
+                - generic [ref=e1455]: Posted 1 hr ago
+                - generic [ref=e1456]: ·
+                - generic [ref=e1457]: 16 days left
+              - generic [ref=e1458]:
+                - generic [ref=e1459]: React
+                - generic [ref=e1460]: CSS
+                - generic [ref=e1461]: Responsive Design
+              - generic [ref=e1463]: Open
+            - generic [ref=e1464]:
+              - generic [ref=e1465]:
+                - generic [ref=e1466]: $500
+                - generic [ref=e1467]: Est. budget
+              - link "View job · Send proposal" [ref=e1468]:
+                - /url: /projects/69f1a0cf0f97ac166a00dc11
+          - article [ref=e1469]:
+            - generic [ref=e1470]:
+              - heading "Date Picker Test" [level=2] [ref=e1471]:
+                - link "Date Picker Test" [ref=e1472]:
+                  - /url: /projects/69f1a0630f97ac166a00dc10
+              - paragraph [ref=e1473]: Test date picker functionality
+              - generic [ref=e1474]:
+                - generic [ref=e1475]: Fixed price
+                - generic [ref=e1476]: ·
+                - generic [ref=e1477]: Client Taylor Reed
+                - generic [ref=e1478]: ·
+                - generic [ref=e1479]: Posted 1 hr ago
+                - generic [ref=e1480]: ·
+                - generic [ref=e1481]: 26 days left
+              - generic [ref=e1483]: Date
+              - generic [ref=e1485]: Open
+            - generic [ref=e1486]:
+              - generic [ref=e1487]:
+                - generic [ref=e1488]: $100
+                - generic [ref=e1489]: Est. budget
+              - link "View job · Send proposal" [ref=e1490]:
+                - /url: /projects/69f1a0630f97ac166a00dc10
+          - article [ref=e1491]:
+            - generic [ref=e1492]:
+              - heading "API Development" [level=2] [ref=e1493]:
+                - link "API Development" [ref=e1494]:
+                  - /url: /projects/69f1a0610f97ac166a00dc0f
+              - paragraph [ref=e1495]: Build REST API
+              - generic [ref=e1496]:
+                - generic [ref=e1497]: Fixed price
+                - generic [ref=e1498]: ·
+                - generic [ref=e1499]: Client Taylor Reed
+                - generic [ref=e1500]: ·
+                - generic [ref=e1501]: Posted 1 hr ago
+                - generic [ref=e1502]: ·
+                - generic [ref=e1503]: 21 days left
+              - generic [ref=e1504]:
+                - generic [ref=e1505]: Python
+                - generic [ref=e1506]: Django
+                - generic [ref=e1507]: REST
+              - generic [ref=e1509]: Open
+            - generic [ref=e1510]:
+              - generic [ref=e1511]:
+                - generic [ref=e1512]: $800
+                - generic [ref=e1513]: Est. budget
+              - link "View job · Send proposal" [ref=e1514]:
+                - /url: /projects/69f1a0610f97ac166a00dc0f
+          - article [ref=e1515]:
+            - generic [ref=e1516]:
+              - heading "This is a very long title for a job posting that should be accepted" [level=2] [ref=e1517]:
+                - link "This is a very long title for a job posting that should be accepted" [ref=e1518]:
+                  - /url: /projects/69f1a0600f97ac166a00dc0e
+              - paragraph [ref=e1519]: "Description with line breaks: - Item 1 - Item 2 And some special characters: !@#$%^&*()_+{}[]|\\;:'\"<>,.?/~`"
+              - generic [ref=e1520]:
+                - generic [ref=e1521]: Fixed price
+                - generic [ref=e1522]: ·
+                - generic [ref=e1523]: Client Taylor Reed
+                - generic [ref=e1524]: ·
+                - generic [ref=e1525]: Posted 1 hr ago
+                - generic [ref=e1526]: ·
+                - generic [ref=e1527]: 26 days left
+              - generic [ref=e1528]:
+                - generic [ref=e1529]: JavaScript
+                - generic [ref=e1530]: Node.js
+                - generic [ref=e1531]: PostgreSQL
+              - generic [ref=e1533]: Open
+            - generic [ref=e1534]:
+              - generic [ref=e1535]:
+                - generic [ref=e1536]: $2,500
+                - generic [ref=e1537]: Est. budget
+              - link "View job · Send proposal" [ref=e1538]:
+                - /url: /projects/69f1a0600f97ac166a00dc0e
+          - article [ref=e1539]:
+            - generic [ref=e1540]:
+              - heading "Mobile app UI design" [level=2] [ref=e1541]:
+                - link "Mobile app UI design" [ref=e1542]:
+                  - /url: /projects/69f1a0510f97ac166a00dc0d
+              - paragraph [ref=e1543]: Design 5 screens for iOS app
+              - generic [ref=e1544]:
+                - generic [ref=e1545]: Fixed price
+                - generic [ref=e1546]: ·
+                - generic [ref=e1547]: Client Taylor Reed
+                - generic [ref=e1548]: ·
+                - generic [ref=e1549]: Posted 1 hr ago
+                - generic [ref=e1550]: ·
+                - generic [ref=e1551]: 33 days left
+              - generic [ref=e1552]:
+                - generic [ref=e1553]: Figma
+                - generic [ref=e1554]: UI/UX
+                - generic [ref=e1555]: iOS
+              - generic [ref=e1557]: Open
+            - generic [ref=e1558]:
+              - generic [ref=e1559]:
+                - generic [ref=e1560]: $1,200
+                - generic [ref=e1561]: Est. budget
+              - link "View job · Send proposal" [ref=e1562]:
+                - /url: /projects/69f1a0510f97ac166a00dc0d
+          - article [ref=e1563]:
+            - generic [ref=e1564]:
+              - heading "Build responsive landing page" [level=2] [ref=e1565]:
+                - link "Build responsive landing page" [ref=e1566]:
+                  - /url: /projects/69f1a04e0f97ac166a00dc0c
+              - paragraph [ref=e1567]: Need a modern landing page with hero section and contact form
+              - generic [ref=e1568]:
+                - generic [ref=e1569]: Fixed price
+                - generic [ref=e1570]: ·
+                - generic [ref=e1571]: Client Taylor Reed
+                - generic [ref=e1572]: ·
+                - generic [ref=e1573]: Posted 1 hr ago
+                - generic [ref=e1574]: ·
+                - generic [ref=e1575]: 16 days left
+              - generic [ref=e1576]:
+                - generic [ref=e1577]: React
+                - generic [ref=e1578]: CSS
+                - generic [ref=e1579]: Responsive Design
+              - generic [ref=e1581]: Open
+            - generic [ref=e1582]:
+              - generic [ref=e1583]:
+                - generic [ref=e1584]: $500
+                - generic [ref=e1585]: Est. budget
+              - link "View job · Send proposal" [ref=e1586]:
+                - /url: /projects/69f1a04e0f97ac166a00dc0c
+          - article [ref=e1587]:
+            - generic [ref=e1588]:
+              - heading "Date Picker Test" [level=2] [ref=e1589]:
+                - link "Date Picker Test" [ref=e1590]:
+                  - /url: /projects/69f1a0120f97ac166a00dc0b
+              - paragraph [ref=e1591]: Test date picker functionality
+              - generic [ref=e1592]:
+                - generic [ref=e1593]: Fixed price
+                - generic [ref=e1594]: ·
+                - generic [ref=e1595]: Client Taylor Reed
+                - generic [ref=e1596]: ·
+                - generic [ref=e1597]: Posted 1 hr ago
+                - generic [ref=e1598]: ·
+                - generic [ref=e1599]: 26 days left
+              - generic [ref=e1601]: Date
+              - generic [ref=e1603]: Open
+            - generic [ref=e1604]:
+              - generic [ref=e1605]:
+                - generic [ref=e1606]: $100
+                - generic [ref=e1607]: Est. budget
+              - link "View job · Send proposal" [ref=e1608]:
+                - /url: /projects/69f1a0120f97ac166a00dc0b
+          - article [ref=e1609]:
+            - generic [ref=e1610]:
+              - heading "API Development" [level=2] [ref=e1611]:
+                - link "API Development" [ref=e1612]:
+                  - /url: /projects/69f1a00a0f97ac166a00dc0a
+              - paragraph [ref=e1613]: Build REST API
+              - generic [ref=e1614]:
+                - generic [ref=e1615]: Fixed price
+                - generic [ref=e1616]: ·
+                - generic [ref=e1617]: Client Taylor Reed
+                - generic [ref=e1618]: ·
+                - generic [ref=e1619]: Posted 1 hr ago
+                - generic [ref=e1620]: ·
+                - generic [ref=e1621]: 21 days left
+              - generic [ref=e1622]:
+                - generic [ref=e1623]: Python
+                - generic [ref=e1624]: Django
+                - generic [ref=e1625]: REST
+              - generic [ref=e1627]: Open
+            - generic [ref=e1628]:
+              - generic [ref=e1629]:
+                - generic [ref=e1630]: $800
+                - generic [ref=e1631]: Est. budget
+              - link "View job · Send proposal" [ref=e1632]:
+                - /url: /projects/69f1a00a0f97ac166a00dc0a
+          - article [ref=e1633]:
+            - generic [ref=e1634]:
+              - heading "This is a very long title for a job posting that should be accepted" [level=2] [ref=e1635]:
+                - link "This is a very long title for a job posting that should be accepted" [ref=e1636]:
+                  - /url: /projects/69f1a0010f97ac166a00dc09
+              - paragraph [ref=e1637]: "Description with line breaks: - Item 1 - Item 2 And some special characters: !@#$%^&*()_+{}[]|\\;:'\"<>,.?/~`"
+              - generic [ref=e1638]:
+                - generic [ref=e1639]: Fixed price
+                - generic [ref=e1640]: ·
+                - generic [ref=e1641]: Client Taylor Reed
+                - generic [ref=e1642]: ·
+                - generic [ref=e1643]: Posted 1 hr ago
+                - generic [ref=e1644]: ·
+                - generic [ref=e1645]: 26 days left
+              - generic [ref=e1646]:
+                - generic [ref=e1647]: JavaScript
+                - generic [ref=e1648]: Node.js
+                - generic [ref=e1649]: PostgreSQL
+              - generic [ref=e1651]: Open
+            - generic [ref=e1652]:
+              - generic [ref=e1653]:
+                - generic [ref=e1654]: $2,500
+                - generic [ref=e1655]: Est. budget
+              - link "View job · Send proposal" [ref=e1656]:
+                - /url: /projects/69f1a0010f97ac166a00dc09
+          - article [ref=e1657]:
+            - generic [ref=e1658]:
+              - heading "Mobile app UI design" [level=2] [ref=e1659]:
+                - link "Mobile app UI design" [ref=e1660]:
+                  - /url: /projects/69f19fdf0f97ac166a00dc08
+              - paragraph [ref=e1661]: Design 5 screens for iOS app
+              - generic [ref=e1662]:
+                - generic [ref=e1663]: Fixed price
+                - generic [ref=e1664]: ·
+                - generic [ref=e1665]: Client Taylor Reed
+                - generic [ref=e1666]: ·
+                - generic [ref=e1667]: Posted 1 hr ago
+                - generic [ref=e1668]: ·
+                - generic [ref=e1669]: 33 days left
+              - generic [ref=e1670]:
+                - generic [ref=e1671]: Figma
+                - generic [ref=e1672]: UI/UX
+                - generic [ref=e1673]: iOS
+              - generic [ref=e1675]: Open
+            - generic [ref=e1676]:
+              - generic [ref=e1677]:
+                - generic [ref=e1678]: $1,200
+                - generic [ref=e1679]: Est. budget
+              - link "View job · Send proposal" [ref=e1680]:
+                - /url: /projects/69f19fdf0f97ac166a00dc08
+          - article [ref=e1681]:
+            - generic [ref=e1682]:
+              - heading "Build responsive landing page" [level=2] [ref=e1683]:
+                - link "Build responsive landing page" [ref=e1684]:
+                  - /url: /projects/69f19fd40f97ac166a00dc07
+              - paragraph [ref=e1685]: Need a modern landing page with hero section and contact form
+              - generic [ref=e1686]:
+                - generic [ref=e1687]: Fixed price
+                - generic [ref=e1688]: ·
+                - generic [ref=e1689]: Client Taylor Reed
+                - generic [ref=e1690]: ·
+                - generic [ref=e1691]: Posted 1 hr ago
+                - generic [ref=e1692]: ·
+                - generic [ref=e1693]: 16 days left
+              - generic [ref=e1694]:
+                - generic [ref=e1695]: React
+                - generic [ref=e1696]: CSS
+                - generic [ref=e1697]: Responsive Design
+              - generic [ref=e1699]: Open
+            - generic [ref=e1700]:
+              - generic [ref=e1701]:
+                - generic [ref=e1702]: $500
+                - generic [ref=e1703]: Est. budget
+              - link "View job · Send proposal" [ref=e1704]:
+                - /url: /projects/69f19fd40f97ac166a00dc07
+          - article [ref=e1705]:
+            - generic [ref=e1706]:
+              - heading "Date Picker Test" [level=2] [ref=e1707]:
+                - link "Date Picker Test" [ref=e1708]:
+                  - /url: /projects/69f19fb00f97ac166a00dc06
+              - paragraph [ref=e1709]: Test date picker functionality
+              - generic [ref=e1710]:
+                - generic [ref=e1711]: Fixed price
+                - generic [ref=e1712]: ·
+                - generic [ref=e1713]: Client Taylor Reed
+                - generic [ref=e1714]: ·
+                - generic [ref=e1715]: Posted 1 hr ago
+                - generic [ref=e1716]: ·
+                - generic [ref=e1717]: 26 days left
+              - generic [ref=e1719]: Date
+              - generic [ref=e1721]: Open
+            - generic [ref=e1722]:
+              - generic [ref=e1723]:
+                - generic [ref=e1724]: $100
+                - generic [ref=e1725]: Est. budget
+              - link "View job · Send proposal" [ref=e1726]:
+                - /url: /projects/69f19fb00f97ac166a00dc06
+          - article [ref=e1727]:
+            - generic [ref=e1728]:
+              - heading "API Development" [level=2] [ref=e1729]:
+                - link "API Development" [ref=e1730]:
+                  - /url: /projects/69f19fae0f97ac166a00dc05
+              - paragraph [ref=e1731]: Build REST API
+              - generic [ref=e1732]:
+                - generic [ref=e1733]: Fixed price
+                - generic [ref=e1734]: ·
+                - generic [ref=e1735]: Client Taylor Reed
+                - generic [ref=e1736]: ·
+                - generic [ref=e1737]: Posted 1 hr ago
+                - generic [ref=e1738]: ·
+                - generic [ref=e1739]: 21 days left
+              - generic [ref=e1740]:
+                - generic [ref=e1741]: Python
+                - generic [ref=e1742]: Django
+                - generic [ref=e1743]: REST
+              - generic [ref=e1745]: Open
+            - generic [ref=e1746]:
+              - generic [ref=e1747]:
+                - generic [ref=e1748]: $800
+                - generic [ref=e1749]: Est. budget
+              - link "View job · Send proposal" [ref=e1750]:
+                - /url: /projects/69f19fae0f97ac166a00dc05
+          - article [ref=e1751]:
+            - generic [ref=e1752]:
+              - heading "This is a very long title for a job posting that should be accepted" [level=2] [ref=e1753]:
+                - link "This is a very long title for a job posting that should be accepted" [ref=e1754]:
+                  - /url: /projects/69f19fae0f97ac166a00dc04
+              - paragraph [ref=e1755]: "Description with line breaks: - Item 1 - Item 2 And some special characters: !@#$%^&*()_+{}[]|\\;:'\"<>,.?/~`"
+              - generic [ref=e1756]:
+                - generic [ref=e1757]: Fixed price
+                - generic [ref=e1758]: ·
+                - generic [ref=e1759]: Client Taylor Reed
+                - generic [ref=e1760]: ·
+                - generic [ref=e1761]: Posted 1 hr ago
+                - generic [ref=e1762]: ·
+                - generic [ref=e1763]: 26 days left
+              - generic [ref=e1764]:
+                - generic [ref=e1765]: JavaScript
+                - generic [ref=e1766]: Node.js
+                - generic [ref=e1767]: PostgreSQL
+              - generic [ref=e1769]: Open
+            - generic [ref=e1770]:
+              - generic [ref=e1771]:
+                - generic [ref=e1772]: $2,500
+                - generic [ref=e1773]: Est. budget
+              - link "View job · Send proposal" [ref=e1774]:
+                - /url: /projects/69f19fae0f97ac166a00dc04
+          - article [ref=e1775]:
+            - generic [ref=e1776]:
+              - heading "Mobile app UI design" [level=2] [ref=e1777]:
+                - link "Mobile app UI design" [ref=e1778]:
+                  - /url: /projects/69f19fad0f97ac166a00dc03
+              - paragraph [ref=e1779]: Design 5 screens for iOS app
+              - generic [ref=e1780]:
+                - generic [ref=e1781]: Fixed price
+                - generic [ref=e1782]: ·
+                - generic [ref=e1783]: Client Taylor Reed
+                - generic [ref=e1784]: ·
+                - generic [ref=e1785]: Posted 1 hr ago
+                - generic [ref=e1786]: ·
+                - generic [ref=e1787]: 33 days left
+              - generic [ref=e1788]:
+                - generic [ref=e1789]: Figma
+                - generic [ref=e1790]: UI/UX
+                - generic [ref=e1791]: iOS
+              - generic [ref=e1793]: Open
+            - generic [ref=e1794]:
+              - generic [ref=e1795]:
+                - generic [ref=e1796]: $1,200
+                - generic [ref=e1797]: Est. budget
+              - link "View job · Send proposal" [ref=e1798]:
+                - /url: /projects/69f19fad0f97ac166a00dc03
+          - article [ref=e1799]:
+            - generic [ref=e1800]:
+              - heading "Build responsive landing page" [level=2] [ref=e1801]:
+                - link "Build responsive landing page" [ref=e1802]:
+                  - /url: /projects/69f19fad0f97ac166a00dc02
+              - paragraph [ref=e1803]: Need a modern landing page with hero section and contact form
+              - generic [ref=e1804]:
+                - generic [ref=e1805]: Fixed price
+                - generic [ref=e1806]: ·
+                - generic [ref=e1807]: Client Taylor Reed
+                - generic [ref=e1808]: ·
+                - generic [ref=e1809]: Posted 1 hr ago
+                - generic [ref=e1810]: ·
+                - generic [ref=e1811]: 16 days left
+              - generic [ref=e1812]:
+                - generic [ref=e1813]: React
+                - generic [ref=e1814]: CSS
+                - generic [ref=e1815]: Responsive Design
+              - generic [ref=e1817]: Open
+            - generic [ref=e1818]:
+              - generic [ref=e1819]:
+                - generic [ref=e1820]: $500
+                - generic [ref=e1821]: Est. budget
+              - link "View job · Send proposal" [ref=e1822]:
+                - /url: /projects/69f19fad0f97ac166a00dc02
+          - article [ref=e1823]:
+            - generic [ref=e1824]:
+              - heading "Pariatur Ea tempori" [level=2] [ref=e1825]:
+                - link "Pariatur Ea tempori" [ref=e1826]:
+                  - /url: /projects/69f19e0c0f97ac166a00dc01
+              - paragraph [ref=e1827]: Possimus nisi cum o
+              - generic [ref=e1828]:
+                - generic [ref=e1829]: Fixed price
+                - generic [ref=e1830]: ·
+                - generic [ref=e1831]: Client Taylor Reed
+                - generic [ref=e1832]: ·
+                - generic [ref=e1833]: Posted 2 hr ago
+                - generic [ref=e1834]: ·
+                - generic [ref=e1835]: 75 days left
+              - generic [ref=e1837]: Non exercitation dol
+              - generic [ref=e1839]: Open
+            - generic [ref=e1840]:
+              - generic [ref=e1841]:
+                - generic [ref=e1842]: $94
+                - generic [ref=e1843]: Est. budget
+              - link "View job · Send proposal" [ref=e1844]:
+                - /url: /projects/69f19e0c0f97ac166a00dc01
+          - article [ref=e1845]:
+            - generic [ref=e1846]:
+              - heading "PostgreSQL performance tuning" [level=2] [ref=e1847]:
+                - link "PostgreSQL performance tuning" [ref=e1848]:
+                  - /url: /projects/69f188864e90975a5c34128b
+              - paragraph [ref=e1849]: Investigate slow queries on Neon Postgres (dashboards + batch jobs). Deliver EXPLAIN plans, missing indexes, and safe migration scripts; optional PgBouncer tuning recommendations.
+              - generic [ref=e1850]:
+                - generic [ref=e1851]: Fixed price
+                - generic [ref=e1852]: ·
+                - generic [ref=e1853]: Client Morgan Diaz
+                - generic [ref=e1854]: ·
+                - generic [ref=e1855]: Posted 3 hr ago
+                - generic [ref=e1856]: ·
+                - generic [ref=e1857]: 16 days left
+              - generic [ref=e1858]:
+                - generic [ref=e1859]: PostgreSQL
+                - generic [ref=e1860]: SQL
+                - generic [ref=e1861]: Neon
+              - generic [ref=e1863]: Open
+            - generic [ref=e1864]:
+              - generic [ref=e1865]:
+                - generic [ref=e1866]: $3,400
+                - generic [ref=e1867]: Est. budget
+              - link "View job · Send proposal" [ref=e1868]:
+                - /url: /projects/69f188864e90975a5c34128b
+          - article [ref=e1869]:
+            - generic [ref=e1870]:
+              - heading "Explainer video · 90s motion graphics" [level=2] [ref=e1871]:
+                - link "Explainer video · 90s motion graphics" [ref=e1872]:
+                  - /url: /projects/69f188864e90975a5c34128a
+              - paragraph [ref=e1873]: Storyboard from approved script, voice-over sync (we provide VO files), After Effects project files, and 1080p + 4K masters for paid social and website hero.
+              - generic [ref=e1874]:
+                - generic [ref=e1875]: Fixed price
+                - generic [ref=e1876]: ·
+                - generic [ref=e1877]: Client Sam Okonkwo
+                - generic [ref=e1878]: ·
+                - generic [ref=e1879]: Posted 3 hr ago
+                - generic [ref=e1880]: ·
+                - generic [ref=e1881]: 125 days left
+              - generic [ref=e1882]:
+                - generic [ref=e1883]: After Effects
+                - generic [ref=e1884]: Motion design
+                - generic [ref=e1885]: Premiere Pro
+              - generic [ref=e1887]: Open
+            - generic [ref=e1888]:
+              - generic [ref=e1889]:
+                - generic [ref=e1890]: $7,800
+                - generic [ref=e1891]: Est. budget
+              - link "View job · Send proposal" [ref=e1892]:
+                - /url: /projects/69f188864e90975a5c34128a
+          - article [ref=e1893]:
+            - generic [ref=e1894]:
+              - heading "Technical SEO audit · e‑commerce (Shopify)" [level=2] [ref=e1895]:
+                - link "Technical SEO audit · e‑commerce (Shopify)" [ref=e1896]:
+                  - /url: /projects/69f188864e90975a5c341289
+              - paragraph [ref=e1897]: Crawl analysis, indexation fixes, Core Web Vitals remediation plan, schema.org for products, and a prioritized backlog for our Shopify Plus storefront. Work with our content team for redirects after migration.
+              - generic [ref=e1898]:
+                - generic [ref=e1899]: Fixed price
+                - generic [ref=e1900]: ·
+                - generic [ref=e1901]: Client Taylor Reed
+                - generic [ref=e1902]: ·
+                - generic [ref=e1903]: Posted 3 hr ago
+                - generic [ref=e1904]: ·
+                - generic [ref=e1905]: 52 days left
+              - generic [ref=e1906]:
+                - generic [ref=e1907]: SEO
+                - generic [ref=e1908]: Shopify
+                - generic [ref=e1909]: Schema.org
+                - generic [ref=e1910]: Lighthouse
+              - generic [ref=e1912]: Open
+            - generic [ref=e1913]:
+              - generic [ref=e1914]:
+                - generic [ref=e1915]: $5,600
+                - generic [ref=e1916]: Est. budget
+              - link "View job · Send proposal" [ref=e1917]:
+                - /url: /projects/69f188864e90975a5c341289
+          - article [ref=e1918]:
+            - generic [ref=e1919]:
+              - heading "Logo + brand booklet" [level=2] [ref=e1920]:
+                - link "Logo + brand booklet" [ref=e1921]:
+                  - /url: /projects/69f188864e90975a5c341288
+              - paragraph [ref=e1922]: "Vector logo system (primary + wordmark), color + typography scale, usage on light/dark, and a 12-page PDF brand guide for agency partners. Deliverables: Figma source, AI/EPS exports, print-ready PDF."
+              - generic [ref=e1923]:
+                - generic [ref=e1924]: Fixed price
+                - generic [ref=e1925]: ·
+                - generic [ref=e1926]: Client Sam Okonkwo
+                - generic [ref=e1927]: ·
+                - generic [ref=e1928]: Posted 3 hr ago
+                - generic [ref=e1929]: ·
+                - generic [ref=e1930]: 31 days left
+              - generic [ref=e1931]:
+                - generic [ref=e1932]: Figma
+                - generic [ref=e1933]: Illustrator
+                - generic [ref=e1934]: Brand guidelines
+              - generic [ref=e1936]: Completed
+            - generic [ref=e1937]:
+              - generic [ref=e1938]:
+                - generic [ref=e1939]: $2,200
+                - generic [ref=e1940]: Est. budget
+              - link "View job · Send proposal" [ref=e1941]:
+                - /url: /projects/69f188864e90975a5c341288
+          - article [ref=e1942]:
+            - generic [ref=e1943]:
+              - heading "Mobile API integration · JWT & Flutter" [level=2] [ref=e1944]:
+                - link "Mobile API integration · JWT & Flutter" [ref=e1945]:
+                  - /url: /projects/69f188864e90975a5c341280
+              - paragraph [ref=e1946]: "Wire our existing Express API to a production Flutter client: OAuth2-style refresh tokens, device binding, rate limiting headers, and OpenAPI docs kept in sync. Coordinate with our mobile lead on release trains."
+              - generic [ref=e1947]:
+                - generic [ref=e1948]: Fixed price
+                - generic [ref=e1949]: ·
+                - generic [ref=e1950]: Client Morgan Diaz
+                - generic [ref=e1951]: ·
+                - generic [ref=e1952]: Posted 3 hr ago
+                - generic [ref=e1953]: ·
+                - generic [ref=e1954]: 108 days left
+              - generic [ref=e1955]:
+                - generic [ref=e1956]: Node.js
+                - generic [ref=e1957]: Express
+                - generic [ref=e1958]: Flutter
+                - generic [ref=e1959]: OpenAPI
+              - generic [ref=e1961]: Assigned
+            - generic [ref=e1962]:
+              - generic [ref=e1963]:
+                - generic [ref=e1964]: $12,000
+                - generic [ref=e1965]: Est. budget
+              - link "View job · Send proposal" [ref=e1966]:
+                - /url: /projects/69f188864e90975a5c341280
+          - article [ref=e1967]:
+            - generic [ref=e1968]:
+              - heading "Marketing landing site · conversion sprint" [level=2] [ref=e1969]:
+                - link "Marketing landing site · conversion sprint" [ref=e1970]:
+                  - /url: /projects/69f188864e90975a5c34127d
+              - paragraph [ref=e1971]: "Rebuild our paid-acquisition landing for a B2B analytics product: responsive layout, HubSpot forms, GA4 + Segment events, and cookie-consent (OneTrust). Design files in Figma; must hit Core Web Vitals “good” on mobile."
+              - generic [ref=e1972]:
+                - generic [ref=e1973]: Fixed price
+                - generic [ref=e1974]: ·
+                - generic [ref=e1975]: Client Taylor Reed
+                - generic [ref=e1976]: ·
+                - generic [ref=e1977]: Posted 3 hr ago
+                - generic [ref=e1978]: ·
+                - generic [ref=e1979]: 63 days left
+              - generic [ref=e1980]:
+                - generic [ref=e1981]: React
+                - generic [ref=e1982]: Vite
+                - generic [ref=e1983]: Tailwind CSS
+                - generic [ref=e1984]: HubSpot
+              - generic [ref=e1986]: Assigned
+            - generic [ref=e1987]:
+              - generic [ref=e1988]:
+                - generic [ref=e1989]: $4,200
+                - generic [ref=e1990]: Est. budget
+              - link "View job · Send proposal" [ref=e1991]:
+                - /url: /projects/69f188864e90975a5c34127d
+  - contentinfo [ref=e1992]:
+    - generic [ref=e1993]:
+      - generic [ref=e1994]:
+        - generic [ref=e1995]:
+          - generic [ref=e1996]: Oktawave
+          - paragraph [ref=e1997]: A fixed-price project workspace inspired by leading talent marketplaces — scoped work, proposals, milestones, and payouts in one place.
+        - generic [ref=e1998]:
+          - heading "Find work" [level=4] [ref=e1999]
+          - list [ref=e2000]:
+            - listitem [ref=e2001]:
+              - link "Browse jobs" [ref=e2002]:
+                - /url: /
+            - listitem [ref=e2003]:
+              - link "Saved filters" [ref=e2004]:
+                - /url: /#projects-list
+        - generic [ref=e2005]:
+          - heading "For clients" [level=4] [ref=e2006]
+          - list [ref=e2007]:
+            - listitem [ref=e2008]:
+              - link "Post a job" [ref=e2009]:
+                - /url: /post-job
+            - listitem [ref=e2010]: Contracts & milestones (demo)
+        - generic [ref=e2011]:
+          - heading "Support" [level=4] [ref=e2012]
+          - list [ref=e2013]:
+            - listitem [ref=e2014]: Help center (demo)
+            - listitem [ref=e2015]: Trust & safety (demo)
+      - generic [ref=e2016]:
+        - generic [ref=e2017]: Oktawave © 2026
+        - generic [ref=e2018]: Demo app · Not affiliated with Upwork
+```
+
+# Test source
+
+```ts
+  566 |     await ownerPage.fill('input[name="skills"]', 'Figma, UI/UX, iOS');
+  567 |     await ownerPage.click('button:has-text("Publish job")');
+  568 | 
+  569 |     await ownerPage.waitForURL('/');
+  570 |     await expect(ownerPage.locator('h3:has-text("Mobile app UI design")')).toBeVisible();
+  571 |     await expect(ownerPage.locator('text="$1200"')).toBeVisible();
+  572 |     await expect(ownerPage.locator('text="Figma"')).toBeVisible();
+  573 |     await expect(ownerPage.locator('text="UI/UX"')).toBeVisible();
+  574 |     await expect(ownerPage.locator('text="iOS"')).toBeVisible();
+  575 |     await expect(ownerPage.locator('text="Status: Open"')).toBeVisible();
+  576 |   });
+  577 | 
+  578 |   test('TC-005: ProjectsPage sidebar no longer contains expandable form', async () => {
+  579 |     await ownerPage.goto('/');
+  580 |     const clientToolsCard = ownerPage.locator('.uw-card:has-text("Client tools")');
+  581 |     await expect(clientToolsCard).toBeVisible();
+  582 |     await expect(clientToolsCard.locator('text="Post a new job"')).toBeVisible();
+  583 |     await expect(clientToolsCard.locator('form')).not.toBeVisible();
+  584 |     await clientToolsCard.locator('a:has-text("Post a new job")').click();
+  585 |     await ownerPage.waitForURL('/post-job');
+  586 |   });
+  587 | 
+  588 |   test('TC-006: Non-owner (bidder) accesses /post-job route', async ({ browser }) => {
+  589 |     const bidderContext = await loginAsBidder(browser);
+  590 |     const bidderPage = await bidderContext.newPage();
+  591 |     await bidderPage.goto('/post-job');
+  592 |     await expect(bidderPage.locator('h1:has-text("Client access only")')).toBeVisible();
+  593 |     await expect(bidderPage.locator('text="only owner accounts can post jobs"')).toBeVisible();
+  594 |     await expect(bidderPage.locator('button:has-text("Browse jobs")')).toBeVisible();
+  595 |     await expect(bidderPage.locator('form')).not.toBeVisible();
+  596 |     await bidderPage.close();
+  597 |     await bidderContext.close();
+  598 |   });
+  599 | 
+  600 |   test('TC-007: Form validation - all required fields empty', async () => {
+  601 |     await ownerPage.goto('/post-job');
+  602 |     await ownerPage.click('button:has-text("Publish job")');
+  603 | 
+  604 |     await expect(ownerPage.locator('text="Required"').nth(0)).toBeVisible(); // Title
+  605 |     await expect(ownerPage.locator('text="Required"').nth(1)).toBeVisible(); // Description
+  606 |     await expect(ownerPage.locator('text="Valid budget required"')).toBeVisible();
+  607 |     await expect(ownerPage.locator('text="Required"').nth(2)).toBeVisible(); // Deadline
+  608 |     await expect(ownerPage.locator('text="Required"').nth(3)).toBeVisible(); // Skills
+  609 |     await expect(ownerPage.url()).toContain('/post-job'); // Should remain on the same page
+  610 |   });
+  611 | 
+  612 |   test('TC-008: Form validation - negative budget', async () => {
+  613 |     await ownerPage.goto('/post-job');
+  614 |     await ownerPage.fill('input[name="title"]', 'Test job');
+  615 |     await ownerPage.fill('textarea[name="description"]', 'Test description');
+  616 |     await ownerPage.fill('input[name="budget"]', '-100');
+  617 |     await ownerPage.fill('input[name="deadline"]', '2026-05-20');
+  618 |     await ownerPage.fill('input[name="skills"]', 'Testing');
+  619 |     await ownerPage.click('button:has-text("Publish job")');
+  620 | 
+  621 |     await expect(ownerPage.locator('text="Valid budget required"')).toBeVisible();
+  622 |     await expect(ownerPage.url()).toContain('/post-job');
+  623 |   });
+  624 | 
+  625 |   test('TC-009: Network error during submission', async () => {
+  626 |     // Mock API to simulate network error
+  627 |     await ownerPage.route('**/api/projects', async route => {
+  628 |       await route.fulfill({
+  629 |         status: 500,
+  630 |         contentType: 'application/json',
+  631 |         body: JSON.stringify({ message: 'Cannot reach the API—start the backend (port 9001) and reload.' }),
+  632 |       });
+  633 |     });
+  634 | 
+  635 |     await ownerPage.goto('/post-job');
+  636 |     await ownerPage.fill('input[name="title"]', 'Network Error Test');
+  637 |     await ownerPage.fill('textarea[name="description"]', 'Description');
+  638 |     await ownerPage.fill('input[name="budget"]', '100');
+  639 |     await ownerPage.fill('input[name="deadline"]', '2026-05-25');
+  640 |     await ownerPage.fill('input[name="skills"]', 'Error Handling');
+  641 |     await ownerPage.click('button:has-text("Publish job")');
+  642 | 
+  643 |     await expect(ownerPage.locator('text="Cannot reach the API—start the backend (port 9001) and reload."')).toBeVisible();
+  644 |     await expect(ownerPage.url()).toContain('/post-job');
+  645 |     await expect(ownerPage.locator('input[name="title"]')).toHaveValue('Network Error Test'); // Data preserved
+  646 |   });
+  647 | 
+  648 |   test('TC-010: Empty state copy on browse page references new posting flow', async () => {
+  649 |     // This test requires a clean database with no projects, which is hard to guarantee in a shared test environment.
+  650 |     // We'll simulate by checking the text if it appears, assuming a clean state for this specific check.
+  651 |     // A more robust solution would be to clear all projects before this test.
+  652 |     await ownerPage.goto('/');
+  653 |     // Assuming there are no projects, the empty state message should be visible.
+  654 |     // This might require mocking the API response for /api/projects to return an empty array.
+  655 |     // For now, we'll check for the text if it's present.
+  656 |     const emptyStateMessage = ownerPage.locator('text="No jobs yet. Visit the Post a job page to publish the first listing."');
+  657 |     // await expect(emptyStateMessage).toBeVisible(); // Uncomment if you can ensure empty state
+  658 |   });
+  659 | 
+  660 |   test('TC-011: All form fields accept valid data types and formats', async () => {
+  661 |     await ownerPage.goto('/post-job');
+  662 |     const longTitle = 'A very long title for a project that needs to be exactly fifty characters long!';
+  663 |     const multiLineDescription = 'This is a multi-line description.\nIt includes special characters like !@#$%^&*()_+-=[]{}|;:\'",./<>?`~.\nAnd also numbers 12345.';
+  664 |     const skillsWithSpaces = '  JavaScript , Node.js , PostgreSQL  ';
+  665 | 
+> 666 |     await ownerPage.fill('input[name="title"]', longTitle);
+      |                     ^ Error: page.fill: Target page, context or browser has been closed
+  667 |     await ownerPage.fill('textarea[name="description"]', multiLineDescription);
+  668 |     await ownerPage.fill('input[name="budget"]', '2500');
+  669 |     await ownerPage.fill('input[name="deadline"]', '2026-05-25'); // Assuming date picker auto-fills or we can directly input
+  670 |     await ownerPage.fill('input[name="skills"]', skillsWithSpaces);
+  671 |     await ownerPage.click('button:has-text("Publish job")');
+  672 | 
+  673 |     await ownerPage.waitForURL('/');
+  674 |     await expect(ownerPage.locator(`h3:has-text("${longTitle}")`)).toBeVisible();
+  675 |     await expect(ownerPage.locator('text="$2500"')).toBeVisible();
+  676 |     await expect(ownerPage.locator('text="JavaScript"')).toBeVisible();
+  677 |     await expect(ownerPage.locator('text="Node.js"')).toBeVisible();
+  678 |     await expect(ownerPage.locator('text="PostgreSQL"')).toBeVisible();
+  679 | 
+  680 |     // Navigate to detail page to verify description and skills parsing more thoroughly
+  681 |     await ownerPage.locator(`h3:has-text("${longTitle}")`).click();
+  682 |     await ownerPage.waitForURL(/\/projects\/.*/);
+  683 |     const descriptionText = await ownerPage.locator('.uw-project-description').textContent();
+  684 |     expect(descriptionText).toContain('This is a multi-line description.');
+  685 |     expect(descriptionText).toContain('It includes special characters like !@#$%^&*()_+-=[]{}|;:\'",./<>?`~.');
+  686 |     expect(descriptionText).toContain('And also numbers 12345.');
+  687 | 
+  688 |     const skillTags = await ownerPage.locator('.uw-badge').allTextContents();
+  689 |     expect(skillTags).toEqual(expect.arrayContaining(['JavaScript', 'Node.js', 'PostgreSQL']));
+  690 | 
+  691 |     const url = ownerPage.url();
+  692 |     projectId = url.split('/').pop();
+  693 |   });
+  694 | 
+  695 |   test('TC-012: Skills parse correctly as comma-separated list', async () => {
+  696 |     await ownerPage.goto('/post-job');
+  697 |     await ownerPage.fill('input[name="title"]', 'API Development');
+  698 |     await ownerPage.fill('textarea[name="description"]', 'Build REST API');
+  699 |     await ownerPage.fill('input[name="budget"]', '800');
+  700 |     await ownerPage.fill('input[name="deadline"]', '2026-05-20');
+  701 |     await ownerPage.fill('input[name="skills"]', '  Python , Django , REST  ');
+  702 |     await ownerPage.click('button:has-text("Publish job")');
+  703 | 
+  704 |     await ownerPage.waitForURL('/');
+  705 |     await expect(ownerPage.locator('h3:has-text("API Development")')).toBeVisible();
+  706 |     const skillTags = await ownerPage.locator('h3:has-text("API Development")').locator('xpath=ancestor::div[contains(@class, "uw-card")]').locator('.uw-badge').allTextContents();
+  707 |     expect(skillTags).toEqual(expect.arrayContaining(['Python', 'Django', 'REST']));
+  708 |   });
+  709 | 
+  710 |   test('TC-013: Date picker works for deadline field', async () => {
+  711 |     await ownerPage.goto('/post-job');
+  712 |     const deadlineInput = ownerPage.locator('input[name="deadline"]');
+  713 |     await deadlineInput.click();
+  714 | 
+  715 |     // Assuming a simple date picker that allows direct input or has a predictable UI.
+  716 |     // For a real date picker, you might need to click specific elements (e.g., next month button, day).
+  717 |     // For simplicity, we'll directly set the value and verify.
+  718 |     await deadlineInput.fill('2026-05-25');
+  719 |     await ownerPage.click('h1:has-text("Post a fixed-price job")'); // Click outside to close picker if any
+  720 | 
+  721 |     expect(await deadlineInput.inputValue()).toBe('2026-05-25');
+  722 | 
+  723 |     // Submit the form to ensure the value is accepted
+  724 |     await ownerPage.fill('input[name="title"]', 'Date Picker Test');
+  725 |     await ownerPage.fill('textarea[name="description"]', 'Test description');
+  726 |     await ownerPage.fill('input[name="budget"]', '100');
+  727 |     await ownerPage.fill('input[name="skills"]', 'Date');
+  728 |     await ownerPage.click('button:has-text("Publish job")');
+  729 | 
+  730 |     await ownerPage.waitForURL('/');
+  731 |     await expect(ownerPage.locator('h3:has-text("Date Picker Test")')).toBeVisible();
+  732 |     // Further verification would be on the detail page to ensure the date is saved correctly.
+  733 |     const newProjectLink = ownerPage.locator('h3:has-text("Date Picker Test")').first();
+  734 |     await newProjectLink.click();
+  735 |     await ownerPage.waitForURL(/\/projects\/.*/);
+  736 |     const deadlineCard = ownerPage.locator('.uw-detail-stat:has-text("Deadline")');
+  737 |     await expect(deadlineCard).toBeVisible();
+  738 |     await expect(deadlineCard.locator('.uw-detail-stat__value')).toHaveText('2026-05-25');
+  739 | 
+  740 |     const url = ownerPage.url();
+  741 |     projectId = url.split('/').pop();
+  742 |   });
+  743 | 
+  744 |   test('TC-014: Submission with missing title only', async () => {
+  745 |     await ownerPage.goto('/post-job');
+  746 |     // Leave title empty
+  747 |     await ownerPage.fill('textarea[name="description"]', 'Test description');
+  748 |     await ownerPage.fill('input[name="budget"]', '100');
+  749 |     await ownerPage.fill('input[name="deadline"]', '2026-05-20');
+  750 |     await ownerPage.fill('input[name="skills"]', 'Test');
+  751 |     await ownerPage.click('button:has-text("Publish job")');
+  752 | 
+  753 |     await expect(ownerPage.locator('input[name="title"] + .uw-form-error-message:has-text("Required")')).toBeVisible();
+  754 |     await expect(ownerPage.url()).toContain('/post-job');
+  755 |     await expect(ownerPage.locator('textarea[name="description"] + .uw-form-error-message')).not.toBeVisible();
+  756 |   });
+  757 | 
+  758 |   test('TC-015: Submission with empty budget string', async () => {
+  759 |     await ownerPage.goto('/post-job');
+  760 |     await ownerPage.fill('input[name="title"]', 'Test');
+  761 |     await ownerPage.fill('textarea[name="description"]', 'Test');
+  762 |     // Leave budget empty
+  763 |     await ownerPage.fill('input[name="deadline"]', '2026-05-20');
+  764 |     await ownerPage.fill('input[name="skills"]', 'Test');
+  765 |     await ownerPage.click('button:has-text("Publish job")');
+  766 | 
+```

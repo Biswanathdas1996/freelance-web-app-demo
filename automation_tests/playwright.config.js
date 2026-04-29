@@ -18,7 +18,7 @@ export default defineConfig({
     video: 'retain-on-failure',
     // Adds an artificial delay before Playwright actions (click/type/navigate).
     // This is applied across all tests using this Playwright config.
-    launchOptions: { slowMo: 1000 },
+    // launchOptions: { slowMo: 1000 },
   },
 
   projects: [
