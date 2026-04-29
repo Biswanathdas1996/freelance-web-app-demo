@@ -318,4 +318,172 @@ test.describe('Assignment Edit Feature', () => {
     // Verify final state
     await expect(ownerPage.locator('p:has-text("Second edit description")')).toBeVisible();
   });
+
+  test('TC-013: Edit assignment with minimum valid description length (10 chars)', async () => {
+    await ownerPage.goto(`/projects/${projectId}`);
+    await ownerPage.waitForSelector('#assignment', { timeout: 10000 });
+
+    await ownerPage.click('button:has-text("Edit Assignment")');
+
+    const descriptionTextarea = ownerPage.locator('label:has-text("Assignment Description")').locator('..').locator('textarea');
+    await descriptionTextarea.fill('Ten chars!'); // Exactly 10 characters
+
+    await ownerPage.click('button:has-text("Save Changes")');
+
+    // Should submit successfully - no validation error
+    await ownerPage.waitForSelector('h3:has-text("Edit Assignment")', { state: 'hidden', timeout: 5000 });
+    await expect(ownerPage.locator('p:has-text("Ten chars!")')).toBeVisible();
+  });
+
+  test('TC-014: Edit assignment with very long text in all fields', async () => {
+    await ownerPage.goto(`/projects/${projectId}`);
+    await ownerPage.waitForSelector('#assignment', { timeout: 10000 });
+
+    await ownerPage.click('button:has-text("Edit Assignment")');
+
+    // 500 character name
+    const longName = 'A'.repeat(500);
+    const freelancerInput = ownerPage.locator('label:has-text("Freelancer Name")').locator('..').locator('input');
+    await freelancerInput.fill(longName);
+
+    // 5000 character description
+    const longDescription = 'This is a very long description. '.repeat(150); // ~5000 chars
+    const descriptionTextarea = ownerPage.locator('label:has-text("Assignment Description")').locator('..').locator('textarea');
+    await descriptionTextarea.fill(longDescription);
+
+    // 3000 character notes
+    const longNotes = 'These are extensive notes. '.repeat(110); // ~3000 chars
+    const notesTextarea = ownerPage.locator('label:has-text("Notes")').locator('..').locator('textarea');
+    await notesTextarea.fill(longNotes);
+
+    await ownerPage.click('button:has-text("Save Changes")');
+
+    // Should handle long text without errors
+    await ownerPage.waitForSelector('h3:has-text("Edit Assignment")', { state: 'hidden', timeout: 5000 });
+
+    // Verify the card contains part of the long text (checking full text might be truncated in UI)
+    const card = ownerPage.locator('.card').first();
+    await expect(card).toContainText(longName.substring(0, 50));
+    await expect(card).toContainText(longDescription.substring(0, 50));
+    await expect(card).toContainText(longNotes.substring(0, 50));
+  });
+
+  test('TC-015: Edit assignment with special characters and unicode', async () => {
+    await ownerPage.goto(`/projects/${projectId}`);
+    await ownerPage.waitForSelector('#assignment', { timeout: 10000 });
+
+    await ownerPage.click('button:has-text("Edit Assignment")');
+
+    // Special characters in name
+    const freelancerInput = ownerPage.locator('label:has-text("Freelancer Name")').locator('..').locator('input');
+    await freelancerInput.fill('José García-López');
+
+    // Emojis in description
+    const descriptionTextarea = ownerPage.locator('label:has-text("Assignment Description")').locator('..').locator('textarea');
+    await descriptionTextarea.fill('Project for 🚀 deployment ⚡ with unicode');
+
+    // Symbols in notes
+    const notesTextarea = ownerPage.locator('label:has-text("Notes")').locator('..').locator('textarea');
+    await notesTextarea.fill('$1000 budget & 10% fee + special chars: <>"');
+
+    await ownerPage.click('button:has-text("Save Changes")');
+
+    await ownerPage.waitForSelector('h3:has-text("Edit Assignment")', { state: 'hidden', timeout: 5000 });
+
+    // Verify special characters are preserved and displayed correctly
+    await expect(ownerPage.locator('.card:has-text("José García-López")')).toBeVisible();
+    await expect(ownerPage.locator('p:has-text("Project for 🚀 deployment ⚡")')).toBeVisible();
+    await expect(ownerPage.locator('p:has-text("$1000 budget & 10% fee")')).toBeVisible();
+  });
+
+  test('TC-016: Edit and immediately edit again with form pre-fill verification', async () => {
+    await ownerPage.goto(`/projects/${projectId}`);
+    await ownerPage.waitForSelector('#assignment', { timeout: 10000 });
+
+    // First edit
+    await ownerPage.click('button:has-text("Edit Assignment")');
+
+    const freelancerInput = ownerPage.locator('label:has-text("Freelancer Name")').locator('..').locator('input');
+    await freelancerInput.fill('First Edit Name');
+
+    const descriptionTextarea = ownerPage.locator('label:has-text("Assignment Description")').locator('..').locator('textarea');
+    await descriptionTextarea.fill('First edit description content');
+
+    await ownerPage.click('button:has-text("Save Changes")');
+    await ownerPage.waitForSelector('h3:has-text("Edit Assignment")', { state: 'hidden', timeout: 5000 });
+
+    // Immediately open edit form again
+    await ownerPage.click('button:has-text("Edit Assignment")');
+
+    // Verify form pre-fills with the first edit values
+    const prefilledName = await freelancerInput.inputValue();
+    expect(prefilledName).toBe('First Edit Name');
+
+    const prefilledDescription = await descriptionTextarea.inputValue();
+    expect(prefilledDescription).toBe('First edit description content');
+
+    // Make second edit
+    await freelancerInput.fill('Second Edit Name');
+    await descriptionTextarea.fill('Second edit description content');
+
+    await ownerPage.click('button:has-text("Save Changes")');
+    await ownerPage.waitForSelector('h3:has-text("Edit Assignment")', { state: 'hidden', timeout: 5000 });
+
+    // Verify final values
+    await expect(ownerPage.locator('.card:has-text("Second Edit Name")')).toBeVisible();
+    await expect(ownerPage.locator('p:has-text("Second edit description content")')).toBeVisible();
+  });
+
+  test('TC-017: API error during update shows error message', async () => {
+    await ownerPage.goto(`/projects/${projectId}`);
+    await ownerPage.waitForSelector('#assignment', { timeout: 10000 });
+
+    // Intercept the PUT request and simulate an error
+    await ownerPage.route(`**/api/assignments/${assignmentId}`, route => {
+      route.fulfill({
+        status: 500,
+        contentType: 'application/json',
+        body: JSON.stringify({ error: 'Database connection failed' }),
+      });
+    });
+
+    await ownerPage.click('button:has-text("Edit Assignment")');
+
+    const descriptionTextarea = ownerPage.locator('label:has-text("Assignment Description")').locator('..').locator('textarea');
+    await descriptionTextarea.fill('Attempting to save this');
+
+    await ownerPage.click('button:has-text("Save Changes")');
+
+    // Error message should be displayed
+    const errorMsg = ownerPage.locator('.error-msg:has-text("Database connection failed")');
+    await expect(errorMsg).toBeVisible();
+
+    // Form should remain open
+    const formHeading = ownerPage.locator('h3:has-text("Edit Assignment")');
+    await expect(formHeading).toBeVisible();
+  });
+
+  test('TC-018: Edit assignment preserves currentStage field', async () => {
+    await ownerPage.goto(`/projects/${projectId}`);
+    await ownerPage.waitForSelector('#assignment', { timeout: 10000 });
+
+    // Get initial stage
+    const initialStageBadge = ownerPage.locator('.meta-item:has-text("Stage:")');
+    const initialStageText = await initialStageBadge.textContent();
+
+    // Edit the assignment
+    await ownerPage.click('button:has-text("Edit Assignment")');
+
+    const freelancerInput = ownerPage.locator('label:has-text("Freelancer Name")').locator('..').locator('input');
+    await freelancerInput.fill('Stage Test Freelancer');
+
+    await ownerPage.click('button:has-text("Save Changes")');
+    await ownerPage.waitForSelector('h3:has-text("Edit Assignment")', { state: 'hidden', timeout: 5000 });
+
+    // Verify stage remains unchanged
+    const updatedStageBadge = ownerPage.locator('.meta-item:has-text("Stage:")');
+    const updatedStageText = await updatedStageBadge.textContent();
+
+    expect(updatedStageText).toBe(initialStageText);
+  });
 });
