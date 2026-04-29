@@ -98,3 +98,103 @@ export async function deleteProject(projectId, context) {
     await apiContext.dispose();
   }
 }
+
+export async function createBid(bidData, context) {
+  const token = await getTokenFromContext(context);
+  if (!token) throw new Error('Auth token missing in Playwright context; login might have failed.');
+
+  const apiContext = await request.newContext({
+    baseURL: BASE_URL,
+    extraHTTPHeaders: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  try {
+    const response = await apiContext.post('/api/bids', { data: bidData });
+    if (!response.ok()) {
+      const errorBody = await response.json().catch(() => ({}));
+      const message = errorBody?.message || errorBody?.error || JSON.stringify(errorBody);
+      throw new Error(`Failed to create bid: ${response.status} ${response.statusText} - ${message}`);
+    }
+
+    return await response.json();
+  } finally {
+    await apiContext.dispose();
+  }
+}
+
+export async function createAssignment(assignmentData, context) {
+  const token = await getTokenFromContext(context);
+  if (!token) throw new Error('Auth token missing in Playwright context; login might have failed.');
+
+  const apiContext = await request.newContext({
+    baseURL: BASE_URL,
+    extraHTTPHeaders: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  try {
+    const response = await apiContext.post('/api/assignments', { data: assignmentData });
+    if (!response.ok()) {
+      const errorBody = await response.json().catch(() => ({}));
+      const message = errorBody?.message || errorBody?.error || JSON.stringify(errorBody);
+      throw new Error(`Failed to create assignment: ${response.status} ${response.statusText} - ${message}`);
+    }
+
+    return await response.json();
+  } finally {
+    await apiContext.dispose();
+  }
+}
+
+export async function updateAssignment(assignmentId, updateData, context) {
+  const token = await getTokenFromContext(context);
+  if (!token) throw new Error('Auth token missing in Playwright context; login might have failed.');
+
+  const apiContext = await request.newContext({
+    baseURL: BASE_URL,
+    extraHTTPHeaders: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  try {
+    const response = await apiContext.put(`/api/assignments/${assignmentId}`, { data: updateData });
+    if (!response.ok()) {
+      const errorBody = await response.json().catch(() => ({}));
+      const message = errorBody?.message || errorBody?.error || JSON.stringify(errorBody);
+      throw new Error(`Failed to update assignment: ${response.status} ${response.statusText} - ${message}`);
+    }
+
+    return await response.json();
+  } finally {
+    await apiContext.dispose();
+  }
+}
+
+export async function deleteAssignment(assignmentId, context) {
+  if (!assignmentId) return;
+
+  const token = await getTokenFromContext(context);
+  if (!token) return;
+
+  const apiContext = await request.newContext({
+    baseURL: BASE_URL,
+    extraHTTPHeaders: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  try {
+    const response = await apiContext.delete(`/api/assignments/${assignmentId}`);
+    if (!response.ok()) {
+      const errorBody = await response.json().catch(() => ({}));
+      const message = errorBody?.message || errorBody?.error || JSON.stringify(errorBody);
+      console.error(`Failed to delete assignment ${assignmentId}: ${response.status} ${response.statusText} - ${message}`);
+    }
+  } finally {
+    await apiContext.dispose();
+  }
+}
