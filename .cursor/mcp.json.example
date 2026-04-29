@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "pwc_agents": {
+      "url": "http://localhost:8000/mcp",
+      "headers": {
+        "X-Marketplace-Agent-Env": "{\"AGENTS_API_BASE\":\"http://localhost:8000\",\"PWC_GENAI_API_KEY\":\"YOUR_KEY\",\"PWC_GENAI_BEARER_TOKEN\":\"YOUR_TOKEN\",\"JIRA_EMAIL\":\"you@example.com\",\"JIRA_API_TOKEN\":\"YOUR_JIRA_TOKEN\",\"JIRA_INSTANCE_URL\":\"your-site.atlassian.net\",\"JIRA_PROJECT_KEY\":\"PROJ\",\"MONGODB_URI\":\"mongodb+srv://...\",\"DATABASE_CONNECTION_STRING\":\"postgresql://...\",\"LANGFUSE_PUBLIC_KEY\":\"pk-lf-...\",\"LANGFUSE_SECRET_KEY\":\"sk-lf-...\",\"LLM_PROVIDER\":\"pwc_genai\",\"MCP_ALLOWED_AGENT_IDS\":\"coder_agent,jira_agent,mongodb_rag,sql_db,trace_debugger\"}"
+      }
+    }
+  }
+}
