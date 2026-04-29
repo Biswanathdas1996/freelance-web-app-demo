@@ -31,6 +31,13 @@ function posterName(project) {
   return project.postedBy || '—';
 }
 
+function ownerEmail(project) {
+  if (project.ownerId && typeof project.ownerId === 'object' && project.ownerId.email) {
+    return project.ownerId.email;
+  }
+  return '—';
+}
+
 export default function ProjectDetailPage() {
   const { id } = useParams();
   const { user } = useAuth();
@@ -155,6 +162,10 @@ export default function ProjectDetailPage() {
             <div className="uw-detail-stat">
               <span className="uw-detail-stat__label">Posted by</span>
               <span className="uw-detail-stat__value">{posterName(project)}</span>
+            </div>
+            <div className="uw-detail-stat">
+              <span className="uw-detail-stat__label">Owner Email</span>
+              <span className="uw-detail-stat__value">{ownerEmail(project)}</span>
             </div>
             {listedOn && (
               <div className="uw-detail-stat">
