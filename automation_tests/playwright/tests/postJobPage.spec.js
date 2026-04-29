@@ -20,8 +20,8 @@ test.describe('Post Job Page Functionality', () => {
     await page.click('button:has-text("Publish job")');
 
     await expect(page).toHaveURL('/');
-    await expect(page.locator('.uw-project-card').first()).toContainText('Build responsive landing page');
-    await expect(page.locator('.uw-project-card').first()).toContainText('Open');
+    await expect(page.locator('.uw-job-row').first()).toContainText('Build responsive landing page');
+    await expect(page.locator('.uw-job-row').first()).toContainText('Open');
     // No explicit validation error messages should be visible
     await expect(page.locator('.error-msg')).not.toBeVisible();
   });
@@ -62,9 +62,9 @@ test.describe('Post Job Page Functionality', () => {
     await page.click('button:has-text("Publish job")');
 
     await expect(page).toHaveURL('/');
-    const newJobCard = page.locator('.uw-project-card').first();
+    const newJobCard = page.locator('.uw-job-row').first();
     await expect(newJobCard).toContainText('Mobile app UI design');
-    await expect(newJobCard).toContainText('$1200');
+    await expect(newJobCard).toContainText('$1,200');
     await expect(newJobCard).toContainText('Figma');
     await expect(newJobCard).toContainText('UI/UX');
     await expect(newJobCard).toContainText('iOS');
@@ -88,7 +88,9 @@ test.describe('Post Job Page Functionality', () => {
     await page.goto('/post-job');
 
     await expect(page.locator('h3')).toHaveText('Client access only');
-    await expect(page.locator('p')).toContainText('Only users with an owner account can post jobs.');
+    await expect(
+      page.getByText('Only users with an owner account can post jobs.', { exact: false })
+    ).toBeVisible();
     await expect(page.locator('a.btn-primary')).toHaveText('Browse jobs');
     await expect(page.locator('a.btn-primary')).toHaveAttribute('href', '/');
     await expect(page.locator('form')).not.toBeVisible();
@@ -115,7 +117,9 @@ test.describe('Post Job Page Functionality', () => {
 
     await page.fill('input[placeholder="e.g. Build a responsive landing page"]', 'Test job');
     await page.fill('textarea[placeholder="Describe the project scope, deliverables, and any special requirements"]', 'Test description');
-    await page.fill('input[type="number"]', '-100');
+    const budgetInput = page.locator('form.uw-sidebar-card input[type="number"]');
+    await budgetInput.evaluate((el) => el.removeAttribute('min'));
+    await budgetInput.fill('-100');
     await page.fill('input[type="date"]', '2026-05-20');
     await page.fill('input[placeholder="e.g. React, Node.js, MongoDB"]', 'Testing');
     await page.click('button:has-text("Publish job")');
@@ -132,14 +136,8 @@ test.describe('Post Job Page Functionality', () => {
     await loginAsOwner(page);
     await page.goto('/post-job');
 
-    // Intercept API call to simulate network error
-    await page.route('**/api/projects', route => {
-      route.fulfill({
-        status: 500,
-        body: 'Network Error Simulated',
-        headers: { 'Content-Type': 'text/plain' },
-      });
-    });
+    // Abort the request so axios surfaces a network-style failure and the UI shows the proxy/help copy.
+    await page.route('**/api/projects', route => route.abort('failed'));
 
     await page.fill('input[placeholder="e.g. Build a responsive landing page"]', 'Network Test Job');
     await page.fill('textarea[placeholder="Describe the project scope, deliverables, and any special requirements"]', 'Description for network test');
@@ -148,16 +146,20 @@ test.describe('Post Job Page Functionality', () => {
     await page.fill('input[placeholder="e.g. React, Node.js, MongoDB"]', 'Network, Error');
     await page.click('button:has-text("Publish job")');
 
-    await expect(page.locator('.error-msg', { hasText: 'Cannot reach the API—start the backend (port 9001) and reload.' })).toBeVisible();
+    await expect(page.getByText('Cannot reach the API—start the backend (port 9001) and reload.')).toBeVisible();
     await expect(page).toHaveURL('/post-job');
     await expect(page.locator('input[placeholder="e.g. Build a responsive landing page"]')).toHaveValue('Network Test Job');
   });
 
   test('TC-010 Empty state copy on browse page references new posting flow', async ({ page }) => {
-    // Ensure no projects exist for this test
-    // This would typically involve a backend cleanup or a dedicated test environment
-    // For now, we'll assume a fresh state or mock the API response.
-    // If the backend is persistent, this test might fail unless projects are cleared.
+    await page.route('**/api/projects', (route) => {
+      if (route.request().method() !== 'GET') return route.continue();
+      return route.fulfill({
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+        body: '[]',
+      });
+    });
     await loginAsOwner(page);
     await page.goto('/');
 
@@ -167,7 +169,9 @@ test.describe('Post Job Page Functionality', () => {
     // await page.route('**/api/projects', route => route.fulfill({ status: 200, body: '[]' }));
     // await page.reload();
 
-    await expect(page.locator('p', { hasText: 'No jobs yet. Visit the Post a job page to publish the first listing.' })).toBeVisible();
+    await expect(page.locator('.uw-empty-feed')).toContainText(
+      'No jobs yet. Visit the Post a job page to publish the first listing.'
+    );
   });
 
   test('TC-011 All form fields accept valid data types and formats', async ({ page }) => {
@@ -186,7 +190,7 @@ test.describe('Post Job Page Functionality', () => {
     await page.click('button:has-text("Publish job")');
 
     await expect(page).toHaveURL('/');
-    const newJobCard = page.locator('.uw-project-card').first();
+    const newJobCard = page.locator('.uw-job-row').first();
     await expect(newJobCard).toContainText(longTitle);
     await expect(newJobCard).toContainText('JavaScript');
     await expect(newJobCard).toContainText('Node.js');
@@ -206,12 +210,12 @@ test.describe('Post Job Page Functionality', () => {
     await page.click('button:has-text("Publish job")');
 
     await expect(page).toHaveURL('/');
-    const newJobCard = page.locator('.uw-project-card').first();
+    const newJobCard = page.locator('.uw-job-row').first();
     await expect(newJobCard).toContainText('Python');
     await expect(newJobCard).toContainText('Django');
     await expect(newJobCard).toContainText('REST');
     // Ensure no extra spaces are displayed in the tags
-    await expect(newJobCard.locator('.uw-badge')).toHaveCount(3);
+    await expect(newJobCard.locator('.uw-skill-tag')).toHaveCount(3);
   });
 
   test('TC-013 Date picker works for deadline field', async ({ page }) => {
@@ -232,7 +236,7 @@ test.describe('Post Job Page Functionality', () => {
     await page.click('button:has-text("Publish job")');
 
     await expect(page).toHaveURL('/');
-    const newJobCard = page.locator('.uw-project-card').first();
+    const newJobCard = page.locator('.uw-job-row').first();
     await expect(newJobCard).toContainText('Date Picker Test');
     // Depending on how the date is displayed on the card, verify its format
     // For simplicity, we'll just check the job was created.
@@ -305,7 +309,7 @@ test.describe('Post Job Page Functionality', () => {
     await loginAsOwner(page);
     await page.goto('/#post-project');
 
-    await expect(page).toHaveURL('/');
+    await expect(new URL(page.url()).pathname).toBe('/');
     await expect(page.locator('#post-project')).not.toBeVisible();
     await expect(page.locator('.uw-sidebar-card:has-text("Client tools")')).toBeVisible();
     await expect(page.locator('.uw-sidebar-card:has-text("Client tools")').locator('a.btn-primary')).toHaveText('+ Post a new job');

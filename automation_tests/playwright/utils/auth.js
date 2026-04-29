@@ -1,15 +1,16 @@
+// Matches users created by `npm run seed` in backend (password: demo123).
 export async function loginAsOwner(page) {
   await page.goto('/login');
-  await page.fill('input[name="email"]', 'owner@example.com');
-  await page.fill('input[name="password"]', 'password');
-  await page.click('button:has-text("Login")');
+  await page.locator('input[type="email"]').fill('taylor@demo.com');
+  await page.locator('input[type="password"]').fill('demo123');
+  await page.click('button:has-text("Sign in")');
   await page.waitForURL('/');
 }
 
 export async function loginAsBidder(page) {
   await page.goto('/login');
-  await page.fill('input[name="email"]', 'bidder@example.com');
-  await page.fill('input[name="password"]', 'password');
-  await page.click('button:has-text("Login")');
+  await page.locator('input[type="email"]').fill('jordan@demo.com');
+  await page.locator('input[type="password"]').fill('demo123');
+  await page.click('button:has-text("Sign in")');
   await page.waitForURL('/');
 }
