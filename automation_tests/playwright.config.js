@@ -16,6 +16,9 @@ export default defineConfig({
     trace: 'on-first-retry',
     screenshot: 'on',
     video: 'retain-on-failure',
+    // Adds an artificial delay before Playwright actions (click/type/navigate).
+    // This is applied across all tests using this Playwright config.
+    // launchOptions: { slowMo: 1000 },
   },
 
   projects: [
@@ -29,12 +32,20 @@ export default defineConfig({
       command: 'npm run start',
       cwd: '../backend',
       url: backendReadyUrl,
+      // mongodb-memory-server may download binaries on first run; 60s is often too tight.
+      timeout: 240_000,
       reuseExistingServer: !process.env.CI,
+      // Avoid MongoDB Atlas (IP whitelist) when Playwright spawns the API. Backend uses mongodb-memory-server.
+      env: {
+        ...process.env,
+        ...(process.env.PLAYWRIGHT_USE_ATLAS === '1' ? {} : { USE_MEMORY_MONGO: '1' }),
+      },
     },
     {
       command: 'npm run dev',
       cwd: '../frontend',
       url: frontendOrigin,
+      timeout: 120_000,
       reuseExistingServer: !process.env.CI,
     },
   ],

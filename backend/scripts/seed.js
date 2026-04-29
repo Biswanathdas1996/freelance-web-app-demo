@@ -24,13 +24,14 @@ async function clear() {
   ]);
 }
 
-async function seed() {
-  if (!process.env.MONGO_URI) {
-    console.error('MONGO_URI is missing in .env');
-    process.exit(1);
+async function seed({ skipConnect = false, disconnectAfter = true } = {}) {
+  if (!skipConnect) {
+    if (!process.env.MONGO_URI) {
+      console.error('MONGO_URI is missing in .env');
+      process.exit(1);
+    }
+    await mongoose.connect(process.env.MONGO_URI);
   }
-
-  await mongoose.connect(process.env.MONGO_URI);
   console.log('Connected to MongoDB');
 
   await clear();
@@ -275,10 +276,16 @@ async function seed() {
     todos: await Todo.countDocuments()
   });
 
-  await mongoose.disconnect();
+  if (disconnectAfter) {
+    await mongoose.disconnect();
+  }
 }
 
-seed().catch((err) => {
-  console.error(err);
-  mongoose.disconnect().finally(() => process.exit(1));
-});
+module.exports = { seed };
+
+if (require.main === module) {
+  seed({ skipConnect: false, disconnectAfter: true }).catch(err => {
+    console.error(err);
+    mongoose.disconnect().finally(() => process.exit(1));
+  });
+}
