@@ -36,7 +36,7 @@ export default function Layout({ children, showProjectSectionsNav, headerSearch 
                 Find work
               </Link>
               {isOwner && (
-                <Link to="/#post-project" className="uw-nav-link">
+                <Link to="/post-job" className="uw-nav-link">
                   Post a job
                 </Link>
               )}
@@ -116,7 +116,7 @@ export default function Layout({ children, showProjectSectionsNav, headerSearch 
               <h4 className="uw-footer-heading">For clients</h4>
               <ul className="uw-footer-links">
                 <li>
-                  <Link to="/#post-project">Post a job</Link>
+                  <Link to="/post-job">Post a job</Link>
                 </li>
                 <li>
                   <span className="uw-footer-muted">Contracts &amp; milestones (demo)</span>

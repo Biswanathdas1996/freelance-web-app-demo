@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import { useAuth } from '../context/AuthContext';
-import { getProjects, createProject } from '../api';
+import { getProjects } from '../api';
 
 const STATUS_BADGE = {
   Open: 'badge-open',
@@ -117,20 +117,11 @@ function SearchIcon() {
 export default function ProjectsPage() {
   const { isOwner } = useAuth();
   const [projects, setProjects] = useState([]);
-  const [showForm, setShowForm] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [budgetMin, setBudgetMin] = useState('');
   const [budgetMax, setBudgetMax] = useState('');
   const [sortBy, setSortBy] = useState('newest');
-  const [form, setForm] = useState({
-    title: '',
-    description: '',
-    budget: '',
-    skills: '',
-    deadline: ''
-  });
-  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     getProjects().then(setProjects).catch(console.error);
@@ -142,48 +133,6 @@ export default function ProjectsPage() {
     );
     return applySort(filtered, sortBy);
   }, [projects, searchQuery, statusFilter, budgetMin, budgetMax, sortBy]);
-
-  const validate = () => {
-    const e = {};
-    if (!form.title.trim()) e.title = 'Required';
-    if (!form.description.trim()) e.description = 'Required';
-    if (form.budget === '' || Number(form.budget) < 0) e.budget = 'Valid budget required';
-    if (!form.skills.trim()) e.skills = 'Required';
-    if (!form.deadline) e.deadline = 'Required';
-    return e;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const e2 = validate();
-    if (Object.keys(e2).length) {
-      setErrors(e2);
-      return;
-    }
-    try {
-      const skillsArr = form.skills.split(',').map((s) => s.trim()).filter(Boolean);
-      const created = await createProject({
-        title: form.title,
-        description: form.description,
-        budget: Number(form.budget),
-        skills: skillsArr,
-        deadline: form.deadline
-      });
-      setProjects((prev) => [created, ...prev]);
-      setForm({ title: '', description: '', budget: '', skills: '', deadline: '' });
-      setErrors({});
-      setShowForm(false);
-    } catch (err) {
-      const apiMsg = err.response?.data?.error;
-      const networkMsg =
-        err.code === 'ERR_NETWORK' || err.message === 'Network Error'
-          ? 'Cannot reach the API—start the backend (port 9001) and reload.'
-          : null;
-      setErrors({
-        submit: apiMsg || networkMsg || err.message || 'Failed to create project'
-      });
-    }
-  };
 
   const searchBar = (
     <div className="uw-search-bar">
@@ -259,84 +208,14 @@ export default function ProjectsPage() {
           </div>
 
           {isOwner && (
-            <div className="uw-sidebar-card" id="post-project">
+            <div className="uw-sidebar-card">
               <h3>Client tools</h3>
               <p style={{ fontSize: 13, color: '#767676', margin: '0 0 12px', lineHeight: 1.5 }}>
                 Post a fixed-scope project for freelancers to bid on.
               </p>
-              <button
-                type="button"
-                className="btn-primary"
-                style={{ width: '100%' }}
-                onClick={() => setShowForm((v) => !v)}
-              >
-                {showForm ? 'Close form' : '+ Post a new job'}
-              </button>
-              {showForm && (
-                <div style={{ marginTop: 16 }}>
-                  <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                      <label>Title</label>
-                      <input
-                        className="form-control"
-                        value={form.title}
-                        onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
-                      />
-                      {errors.title && <div className="error-msg">{errors.title}</div>}
-                    </div>
-                    <div className="form-group">
-                      <label>Description</label>
-                      <textarea
-                        className="form-control"
-                        value={form.description}
-                        onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
-                      />
-                      {errors.description && (
-                        <div className="error-msg">{errors.description}</div>
-                      )}
-                    </div>
-                    <div className="form-group">
-                      <label>Budget ($)</label>
-                      <input
-                        type="number"
-                        min="0"
-                        className="form-control"
-                        value={form.budget}
-                        onChange={(e) => setForm((f) => ({ ...f, budget: e.target.value }))}
-                      />
-                      {errors.budget && <div className="error-msg">{errors.budget}</div>}
-                    </div>
-                    <div className="form-group">
-                      <label>Deadline</label>
-                      <input
-                        type="date"
-                        className="form-control"
-                        value={form.deadline}
-                        onChange={(e) => setForm((f) => ({ ...f, deadline: e.target.value }))}
-                      />
-                      {errors.deadline && <div className="error-msg">{errors.deadline}</div>}
-                    </div>
-                    <div className="form-group">
-                      <label>Skills (comma-separated)</label>
-                      <input
-                        className="form-control"
-                        placeholder="e.g. React, Node.js"
-                        value={form.skills}
-                        onChange={(e) => setForm((f) => ({ ...f, skills: e.target.value }))}
-                      />
-                      {errors.skills && <div className="error-msg">{errors.skills}</div>}
-                    </div>
-                    {errors.submit && (
-                      <div className="error-msg" style={{ marginBottom: 8 }}>
-                        {errors.submit}
-                      </div>
-                    )}
-                    <button type="submit" className="btn-primary" style={{ width: '100%' }}>
-                      Publish job
-                    </button>
-                  </form>
-                </div>
-              )}
+              <Link to="/post-job" className="btn-primary" style={{ width: '100%', display: 'block', textAlign: 'center', textDecoration: 'none' }}>
+                + Post a new job
+              </Link>
             </div>
           )}
         </aside>
@@ -376,7 +255,7 @@ export default function ProjectsPage() {
             <div className="uw-empty-feed">
               {projects.length === 0
                 ? isOwner
-                  ? 'No jobs yet. Use "Post a new job" in the sidebar to publish the first listing.'
+                  ? 'No jobs yet. Visit the Post a job page to publish the first listing.'
                   : 'No jobs are listed yet. Check back later.'
                 : 'No jobs match your filters. Try clearing search or budget limits.'}
             </div>
