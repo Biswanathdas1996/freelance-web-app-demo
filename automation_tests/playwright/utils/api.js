@@ -5,22 +5,22 @@ const BASE_URL = 'http://localhost:9001'; // Adjust if your backend runs on a di
 export async function loginAsOwner(browser) {
   const context = await browser.newContext();
   const page = await context.newPage();
-  await page.goto('http://localhost:3000/login'); // Adjust if your frontend runs on a different port
+  await page.goto('http://localhost:9000/login'); // Adjust if your frontend runs on a different port
   await page.fill('input[name="email"]', 'owner@example.com');
   await page.fill('input[name="password"]', 'password');
   await page.click('button[type="submit"]');
-  await page.waitForURL('http://localhost:3000/');
+  await page.waitForURL('http://localhost:9000/');
   return context;
 }
 
 export async function loginAsBidder(browser) {
   const context = await browser.newContext();
   const page = await context.newPage();
-  await page.goto('http://localhost:3000/login');
+  await page.goto('http://localhost:9000/login');
   await page.fill('input[name="email"]', 'bidder@example.com');
   await page.fill('input[name="password"]', 'password');
   await page.click('button[type="submit"]');
-  await page.waitForURL('http://localhost:3000/');
+  await page.waitForURL('http://localhost:9000/');
   return context;
 }
 
