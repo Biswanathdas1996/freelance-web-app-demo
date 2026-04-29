@@ -29,6 +29,9 @@ export default function AssignmentSection({ projectId, isProjectOwner }) {
   const [errors, setErrors] = useState({});
   const [createErrors, setCreateErrors] = useState({});
   const [showCreateForm, setShowCreateForm] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [editForm, setEditForm] = useState({ freelancerName: '', description: '', notes: '' });
+  const [editErrors, setEditErrors] = useState({});
 
   const loadAssignment = useCallback(async () => {
     try {
@@ -103,6 +106,56 @@ export default function AssignmentSection({ projectId, isProjectOwner }) {
       setErrors({});
     } catch (err) {
       setErrors({ submit: err.response?.data?.error || 'Failed to delete assignment' });
+    }
+  };
+
+  const handleEditClick = () => {
+    if (!assignment) return;
+    setEditForm({
+      freelancerName: assignment.freelancerName || '',
+      description: assignment.description || '',
+      notes: assignment.notes || ''
+    });
+    setEditErrors({});
+    setEditMode(true);
+  };
+
+  const handleEditCancel = () => {
+    setEditMode(false);
+    setEditForm({ freelancerName: '', description: '', notes: '' });
+    setEditErrors({});
+  };
+
+  const validateEdit = () => {
+    const e = {};
+    if (!editForm.freelancerName || !editForm.freelancerName.trim())
+      e.freelancerName = 'Freelancer name is required';
+    if (!editForm.description || !editForm.description.trim())
+      e.description = 'Description is required';
+    if (editForm.description && editForm.description.trim().length < 10)
+      e.description = 'Description must be at least 10 characters';
+    return e;
+  };
+
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+    const e2 = validateEdit();
+    if (Object.keys(e2).length) {
+      setEditErrors(e2);
+      return;
+    }
+    try {
+      const updated = await updateAssignment(assignment._id, {
+        freelancerName: editForm.freelancerName.trim(),
+        description: editForm.description.trim(),
+        notes: editForm.notes.trim()
+      });
+      setAssignment(updated);
+      setEditMode(false);
+      setEditForm({ freelancerName: '', description: '', notes: '' });
+      setEditErrors({});
+    } catch (err) {
+      setEditErrors({ submit: err.response?.data?.error || 'Failed to update assignment' });
     }
   };
 
@@ -218,31 +271,89 @@ export default function AssignmentSection({ projectId, isProjectOwner }) {
   return (
     <div id="assignment" style={{ marginBottom: 32 }}>
       <h2 className="section-heading">Assignment</h2>
-      <div className="card" style={{ marginBottom: 20 }}>
-        <div className="meta-row">
-          <div className="meta-item">
-            <strong>Freelancer:</strong> {assignment.freelancerName}
-          </div>
-          <div className="meta-item">
-            <strong>Assigned:</strong> {new Date(assignment.assignedAt).toLocaleDateString()}
-          </div>
-          <div className="meta-item">
-            <strong>Stage:</strong>{' '}
-            <span className={stageBadgeClass(assignment.currentStage)}>{assignment.currentStage}</span>
-          </div>
+      {editMode ? (
+        <div className="form-card" style={{ marginBottom: 20 }}>
+          <h3 style={{ fontSize: 15, fontWeight: 600, marginBottom: 14 }}>Edit Assignment</h3>
+          <form onSubmit={handleEditSubmit}>
+            <div className="form-group">
+              <label>Freelancer Name</label>
+              <input
+                className="form-control"
+                value={editForm.freelancerName}
+                onChange={(e) => setEditForm((f) => ({ ...f, freelancerName: e.target.value }))}
+              />
+              {editErrors.freelancerName && (
+                <div className="error-msg">{editErrors.freelancerName}</div>
+              )}
+            </div>
+            <div className="form-group">
+              <label>Description</label>
+              <textarea
+                className="form-control"
+                rows="4"
+                value={editForm.description}
+                onChange={(e) => setEditForm((f) => ({ ...f, description: e.target.value }))}
+              />
+              {editErrors.description && <div className="error-msg">{editErrors.description}</div>}
+            </div>
+            <div className="form-group">
+              <label>Notes (optional)</label>
+              <textarea
+                className="form-control"
+                rows="3"
+                value={editForm.notes}
+                onChange={(e) => setEditForm((f) => ({ ...f, notes: e.target.value }))}
+              />
+            </div>
+            {editErrors.submit && (
+              <div className="error-msg" style={{ marginBottom: 8 }}>
+                {editErrors.submit}
+              </div>
+            )}
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button type="submit" className="btn-primary">
+                Save Changes
+              </button>
+              <button type="button" className="btn-secondary" onClick={handleEditCancel}>
+                Cancel
+              </button>
+            </div>
+          </form>
         </div>
-        <p style={{ fontSize: 14, color: '#555', marginTop: 10 }}>
-          <strong>Description:</strong> {assignment.description}
-        </p>
-        {assignment.notes && <p style={{ fontSize: 14, color: '#555' }}>{assignment.notes}</p>}
-        {isProjectOwner && (
-          <div style={{ marginTop: 12 }}>
-            <button type="button" className="btn-danger btn-sm" onClick={handleDelete}>
-              Delete Assignment
-            </button>
+      ) : (
+        <div className="card" style={{ marginBottom: 20 }}>
+          <div className="meta-row">
+            <div className="meta-item">
+              <strong>Freelancer:</strong> {assignment.freelancerName}
+            </div>
+            <div className="meta-item">
+              <strong>Assigned:</strong> {new Date(assignment.assignedAt).toLocaleDateString()}
+            </div>
+            <div className="meta-item">
+              <strong>Stage:</strong>{' '}
+              <span className={stageBadgeClass(assignment.currentStage)}>{assignment.currentStage}</span>
+            </div>
           </div>
-        )}
-      </div>
+          <p style={{ fontSize: 14, color: '#555', marginTop: 10 }}>
+            <strong>Description:</strong> {assignment.description}
+          </p>
+          {assignment.notes && (
+            <p style={{ fontSize: 14, color: '#555', marginTop: 8 }}>
+              <strong>Notes:</strong> {assignment.notes}
+            </p>
+          )}
+          {isProjectOwner && (
+            <div style={{ marginTop: 12, display: 'flex', gap: 8 }}>
+              <button type="button" className="btn-primary btn-sm" onClick={handleEditClick}>
+                Edit Assignment
+              </button>
+              <button type="button" className="btn-danger btn-sm" onClick={handleDelete}>
+                Delete Assignment
+              </button>
+            </div>
+          )}
+        </div>
+      )}
 
       {canUpdateStage && (
         <div className="form-card">
