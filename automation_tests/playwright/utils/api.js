@@ -1,24 +1,65 @@
 import { request } from '@playwright/test';
 
-// This utility is primarily for setup/teardown if direct API interaction is needed
-// For most tests, UI interaction is preferred as per the test cases.
+const BASE_URL = 'http://localhost:9001'; // Adjust if your backend runs on a different port
 
-export async function createProject(projectData) {
-  const reqContext = await request.newContext();
-  const response = await reqContext.post('http://localhost:9001/api/projects', {
-    data: projectData,
-  });
-  if (!response.ok()) {
-    throw new Error(`Failed to create project: ${response.statusText}`);
-  }
-  return response.json();
+export async function loginAsOwner(browser) {
+  const context = await browser.newContext();
+  const page = await context.newPage();
+  await page.goto('http://localhost:3000/login'); // Adjust if your frontend runs on a different port
+  await page.fill('input[name="email"]', 'owner@example.com');
+  await page.fill('input[name="password"]', 'password');
+  await page.click('button[type="submit"]');
+  await page.waitForURL('http://localhost:3000/');
+  return context;
 }
 
-export async function clearAllProjects() {
-  // This function would be highly dependent on your backend's API for test data management.
-  // For a real application, you'd have an admin endpoint or a test-specific endpoint.
-  // Example (hypothetical):
-  // const reqContext = await request.newContext();
-  // await reqContext.delete('http://localhost:9001/api/test/projects/clear');
-  console.warn('clearAllProjects is a placeholder. Implement backend API for test data cleanup if needed.');
+export async function loginAsBidder(browser) {
+  const context = await browser.newContext();
+  const page = await context.newPage();
+  await page.goto('http://localhost:3000/login');
+  await page.fill('input[name="email"]', 'bidder@example.com');
+  await page.fill('input[name="password"]', 'password');
+  await page.click('button[type="submit"]');
+  await page.waitForURL('http://localhost:3000/');
+  return context;
+}
+
+export async function createProject(projectData, context) {
+  const apiContext = await request.newContext({
+    baseURL: BASE_URL,
+    extraHTTPHeaders: {
+      'Authorization': `Bearer ${await context.evaluate(() => window.localStorage.getItem('token'))}` // Assuming token is in localStorage
+    }
+  });
+
+  const response = await apiContext.post('/api/projects', {
+    data: projectData,
+  });
+
+  if (!response.ok()) {
+    const errorBody = await response.json();
+    throw new Error(`Failed to create project: ${response.status} ${response.statusText} - ${errorBody.message}`);
+  }
+
+  const project = await response.json();
+  await apiContext.dispose();
+  return project;
+}
+
+export async function deleteProject(projectId, context) {
+  const apiContext = await request.newContext({
+    baseURL: BASE_URL,
+    extraHTTPHeaders: {
+      // Use the provided context's token for authorization
+      'Authorization': `Bearer ${await context.evaluate(() => window.localStorage.getItem('token'))}`
+    }
+  });
+
+  const response = await apiContext.delete(`/api/projects/${projectId}`);
+
+  if (!response.ok()) {
+    const errorBody = await response.json();
+    console.error(`Failed to delete project ${projectId}: ${response.status} ${response.statusText} - ${errorBody.message}`);
+  }
+  await apiContext.dispose();
 }
