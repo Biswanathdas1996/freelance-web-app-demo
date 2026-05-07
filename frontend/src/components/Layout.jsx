@@ -32,7 +32,7 @@ export default function Layout({ children, showProjectSectionsNav, headerSearch 
             </Link>
 
             <nav className="uw-nav-primary" aria-label="Primary">
-              <Link to="/" className={!onDetailPage ? 'uw-nav-link active' : 'uw-nav-link'}>
+              <Link to="/projects" className={!onDetailPage ? 'uw-nav-link active' : 'uw-nav-link'}>
                 Find work
               </Link>
               {isOwner && (
@@ -105,7 +105,7 @@ export default function Layout({ children, showProjectSectionsNav, headerSearch 
               <h4 className="uw-footer-heading">Find work</h4>
               <ul className="uw-footer-links">
                 <li>
-                  <Link to="/">Browse jobs</Link>
+                  <Link to="/projects">Browse jobs</Link>
                 </li>
                 <li>
                   <Link to="/#projects-list">Saved filters</Link>

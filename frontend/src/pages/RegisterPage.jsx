@@ -28,7 +28,7 @@ export default function RegisterPage() {
         role: form.role,
         profession: form.profession.trim()
       });
-      navigate('/', { replace: true });
+      navigate('/projects', { replace: true });
     } catch (err) {
       setError(getApiErrorMessage(err, 'Registration failed'));
     }
