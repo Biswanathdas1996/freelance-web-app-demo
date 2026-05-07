@@ -6,6 +6,9 @@ import ProjectDetailPage from './pages/ProjectDetailPage';
 import PostJobPage from './pages/PostJobPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import LoanLandingPage from './pages/LoanLandingPage';
+import CustomerDetailsFormPage from './pages/CustomerDetailsFormPage';
+import IncomeDetailsFormPage from './pages/IncomeDetailsFormPage';
 
 function App() {
   return (
@@ -35,6 +38,30 @@ function App() {
             element={
               <ProtectedRoute>
                 <ProjectDetailPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/loans"
+            element={
+              <ProtectedRoute>
+                <LoanLandingPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/loans/application/:id/customer-details"
+            element={
+              <ProtectedRoute>
+                <CustomerDetailsFormPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/loans/application/:id/income-details"
+            element={
+              <ProtectedRoute>
+                <IncomeDetailsFormPage />
               </ProtectedRoute>
             }
           />
