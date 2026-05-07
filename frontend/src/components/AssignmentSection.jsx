@@ -12,12 +12,90 @@ import { useAuth } from '../context/AuthContext';
 
 const STAGES = ['NotStarted', 'InProgress', 'UnderReview', 'Completed'];
 
-function stageBadgeClass(stage) {
-  if (stage === 'Completed') return 'badge badge-accepted';
-  if (stage === 'InProgress') return 'badge badge-inprogress';
-  if (stage === 'UnderReview') return 'badge badge-assigned';
-  return 'badge badge-pending';
-}
+const STAGE_CONFIG = {
+  NotStarted: { color: '#64748B', bg: 'rgba(100, 116, 139, 0.1)', border: 'rgba(100, 116, 139, 0.2)', icon: '○' },
+  InProgress: { color: '#2DB5DA', bg: 'rgba(45, 181, 218, 0.1)', border: 'rgba(45, 181, 218, 0.25)', icon: '▶' },
+  UnderReview: { color: '#8B5CF6', bg: 'rgba(139, 92, 246, 0.1)', border: 'rgba(139, 92, 246, 0.25)', icon: '◉' },
+  Completed: { color: '#10B981', bg: 'rgba(16, 185, 129, 0.1)', border: 'rgba(16, 185, 129, 0.25)', icon: '✓' }
+};
+
+const ChevronDownIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <polyline points="6 9 12 15 18 9" />
+  </svg>
+);
+
+const ChevronUpIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <polyline points="18 15 12 9 6 15" />
+  </svg>
+);
+
+const PlusIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <line x1="12" y1="5" x2="12" y2="19" />
+    <line x1="5" y1="12" x2="19" y2="12" />
+  </svg>
+);
+
+const MinusIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <line x1="5" y1="12" x2="19" y2="12" />
+  </svg>
+);
+
+const UserIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+    <circle cx="12" cy="7" r="4" />
+  </svg>
+);
+
+const CalendarIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+    <line x1="16" y1="2" x2="16" y2="6" />
+    <line x1="8" y1="2" x2="8" y2="6" />
+    <line x1="3" y1="10" x2="21" y2="10" />
+  </svg>
+);
+
+const FileTextIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+    <polyline points="14 2 14 8 20 8" />
+    <line x1="16" y1="13" x2="8" y2="13" />
+    <line x1="16" y1="17" x2="8" y2="17" />
+    <polyline points="10 9 9 9 8 9" />
+  </svg>
+);
+
+const TrashIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <polyline points="3 6 5 6 21 6" />
+    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+  </svg>
+);
+
+const ClockIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <circle cx="12" cy="12" r="10" />
+    <polyline points="12 6 12 12 16 14" />
+  </svg>
+);
+
+const MessageIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+  </svg>
+);
+
+const PersonIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+    <circle cx="12" cy="7" r="4" />
+  </svg>
+);
 
 export default function AssignmentSection({ projectId, isProjectOwner }) {
   const { isBidder, user } = useAuth();
@@ -29,6 +107,7 @@ export default function AssignmentSection({ projectId, isProjectOwner }) {
   const [errors, setErrors] = useState({});
   const [createErrors, setCreateErrors] = useState({});
   const [showCreateForm, setShowCreateForm] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const loadAssignment = useCallback(async () => {
     try {
@@ -81,6 +160,7 @@ export default function AssignmentSection({ projectId, isProjectOwner }) {
       setCreateErrors(e2);
       return;
     }
+    setIsLoading(true);
     try {
       await createAssignment({ projectId, ...createForm });
       setCreateForm({ bidId: '', freelancerName: '', description: '' });
@@ -89,12 +169,15 @@ export default function AssignmentSection({ projectId, isProjectOwner }) {
       loadAssignment();
     } catch (err) {
       setCreateErrors({ submit: err.response?.data?.error || 'Failed to create assignment' });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleDelete = async () => {
     if (!assignment) return;
     if (!window.confirm('Are you sure you want to delete this assignment?')) return;
+    setIsLoading(true);
     try {
       await deleteAssignment(assignment._id);
       setAssignment(null);
@@ -103,6 +186,8 @@ export default function AssignmentSection({ projectId, isProjectOwner }) {
       setErrors({});
     } catch (err) {
       setErrors({ submit: err.response?.data?.error || 'Failed to delete assignment' });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -121,6 +206,7 @@ export default function AssignmentSection({ projectId, isProjectOwner }) {
       setErrors(e2);
       return;
     }
+    setIsLoading(true);
     try {
       await createStageProgress({ assignmentId: assignment._id, ...form });
       await updateAssignment(assignment._id, { currentStage: form.stage });
@@ -129,192 +215,347 @@ export default function AssignmentSection({ projectId, isProjectOwner }) {
       loadAssignment();
     } catch (err) {
       setErrors({ submit: err.response?.data?.error || 'Failed to update stage' });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const canUpdateStage = assignment && (isProjectOwner || isBidder);
   const defaultUpdatedBy = user?.name || '';
 
+  const getStageConfig = (stage) => STAGE_CONFIG[stage] || STAGE_CONFIG.NotStarted;
+
+  // Empty state - no assignment
   if (!assignment) {
     return (
-      <div id="assignment" style={{ marginBottom: 32 }}>
-        <h2 className="section-heading">Assignment</h2>
-        {isProjectOwner && (
-          <button className="toggle-btn" onClick={() => setShowCreateForm((v) => !v)}>
-            {showCreateForm ? '- Hide Form' : '+ Create Assignment'}
-          </button>
-        )}
+      <div className="assign-section">
+        <div className="assign-section-header">
+          <div className="assign-section-title">
+            <div className="assign-section-icon">
+              <UserIcon />
+            </div>
+            <h2>Assignment</h2>
+          </div>
+          {isProjectOwner && (
+            <button
+              className={`assign-toggle-btn ${showCreateForm ? 'active' : ''}`}
+              onClick={() => setShowCreateForm((v) => !v)}
+            >
+              {showCreateForm ? (
+                <>
+                  <MinusIcon />
+                  <span>Hide Form</span>
+                </>
+              ) : (
+                <>
+                  <PlusIcon />
+                  <span>Create Assignment</span>
+                </>
+              )}
+            </button>
+          )}
+        </div>
+
         {isProjectOwner && showCreateForm ? (
-          <div className="form-card">
-            <form onSubmit={handleCreateSubmit}>
-              <div className="form-group">
-                <label>Select Bid</label>
-                <select
-                  className="form-control"
-                  value={createForm.bidId}
-                  onChange={(e) => {
-                    const bid = bids.find((b) => b._id === e.target.value);
-                    setCreateForm((f) => ({
-                      ...f,
-                      bidId: e.target.value,
-                      freelancerName: bid ? bid.freelancerName : f.freelancerName
-                    }));
-                  }}
-                >
-                  <option value="">-- Choose a bid --</option>
-                  {bids.map((bid) => (
-                    <option key={bid._id} value={bid._id}>
-                      {bid.freelancerName} - ${bid.amount} ({bid.status})
-                    </option>
-                  ))}
-                </select>
-                {createErrors.bidId && <div className="error-msg">{createErrors.bidId}</div>}
+          <div className="assign-card">
+            <div className="assign-card-header">
+              <h3>Create New Assignment</h3>
+              <p>Select a bid and define the assignment details</p>
+            </div>
+            <form onSubmit={handleCreateSubmit} className="assign-form">
+              <div className="assign-form-grid">
+                <div className="assign-form-group">
+                  <label>Select Bid</label>
+                  <div className="assign-select-wrapper">
+                    <select
+                      className="assign-select"
+                      value={createForm.bidId}
+                      onChange={(e) => {
+                        const bid = bids.find((b) => b._id === e.target.value);
+                        setCreateForm((f) => ({
+                          ...f,
+                          bidId: e.target.value,
+                          freelancerName: bid ? bid.freelancerName : f.freelancerName
+                        }));
+                      }}
+                    >
+                      <option value="">Choose a bid...</option>
+                      {bids.map((bid) => (
+                        <option key={bid._id} value={bid._id}>
+                          {bid.freelancerName} - ${bid.amount} ({bid.status})
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDownIcon />
+                  </div>
+                  {createErrors.bidId && <span className="assign-error">{createErrors.bidId}</span>}
+                </div>
+
+                <div className="assign-form-group">
+                  <label>Freelancer Name</label>
+                  <input
+                    type="text"
+                    className="assign-input"
+                    placeholder="Enter freelancer name"
+                    value={
+                      selectedBid
+                        ? createForm.freelancerName || selectedBid.freelancerName
+                        : createForm.freelancerName
+                    }
+                    onChange={(e) => setCreateForm((f) => ({ ...f, freelancerName: e.target.value }))}
+                  />
+                  {createErrors.freelancerName && (
+                    <span className="assign-error">{createErrors.freelancerName}</span>
+                  )}
+                </div>
               </div>
-              <div className="form-group">
-                <label>Freelancer Name</label>
-                <input
-                  className="form-control"
-                  value={
-                    selectedBid
-                      ? createForm.freelancerName || selectedBid.freelancerName
-                      : createForm.freelancerName
-                  }
-                  onChange={(e) => setCreateForm((f) => ({ ...f, freelancerName: e.target.value }))}
-                />
-                {createErrors.freelancerName && (
-                  <div className="error-msg">{createErrors.freelancerName}</div>
-                )}
-              </div>
-              <div className="form-group">
+
+              <div className="assign-form-group">
                 <label>Assignment Description</label>
                 <textarea
-                  className="form-control"
+                  className="assign-textarea"
+                  placeholder="Describe the work to be done..."
+                  rows={4}
                   value={createForm.description}
                   onChange={(e) => setCreateForm((f) => ({ ...f, description: e.target.value }))}
                 />
                 {createErrors.description && (
-                  <div className="error-msg">{createErrors.description}</div>
+                  <span className="assign-error">{createErrors.description}</span>
                 )}
               </div>
+
               {createErrors.submit && (
-                <div className="error-msg" style={{ marginBottom: 8 }}>
-                  {createErrors.submit}
-                </div>
+                <div className="assign-alert assign-alert-error">{createErrors.submit}</div>
               )}
-              <button type="submit" className="btn-primary">
-                Create Assignment
-              </button>
+
+              <div className="assign-form-actions">
+                <button type="button" className="assign-btn-secondary" onClick={() => setShowCreateForm(false)}>
+                  Cancel
+                </button>
+                <button type="submit" className="assign-btn-primary" disabled={isLoading}>
+                  {isLoading ? 'Creating...' : 'Create Assignment'}
+                </button>
+              </div>
             </form>
           </div>
         ) : (
-          <p className="info-msg">
-            No assignment yet — accept a bid first, or create one manually if you are the project owner.
-          </p>
+          <div className="assign-empty">
+            <div className="assign-empty-icon">
+              <UserIcon />
+            </div>
+            <h3>No Assignment Yet</h3>
+            <p>
+              Accept a bid first, or create one manually if you are the project owner.
+            </p>
+          </div>
         )}
       </div>
     );
   }
 
+  const currentStageConfig = getStageConfig(assignment.currentStage);
+
   return (
-    <div id="assignment" style={{ marginBottom: 32 }}>
-      <h2 className="section-heading">Assignment</h2>
-      <div className="card" style={{ marginBottom: 20 }}>
-        <div className="meta-row">
-          <div className="meta-item">
-            <strong>Freelancer:</strong> {assignment.freelancerName}
+    <div className="assign-section">
+      <div className="assign-section-header">
+        <div className="assign-section-title">
+          <div className="assign-section-icon">
+            <UserIcon />
           </div>
-          <div className="meta-item">
-            <strong>Assigned:</strong> {new Date(assignment.assignedAt).toLocaleDateString()}
+          <h2>Assignment</h2>
+        </div>
+        {isProjectOwner && (
+          <button className="assign-btn-danger" onClick={handleDelete} disabled={isLoading}>
+            <TrashIcon />
+            <span>Delete</span>
+          </button>
+        )}
+      </div>
+
+      {/* Assignment Info Card */}
+      <div className="assign-info-card">
+        <div className="assign-info-header">
+          <div className="assign-info-avatar">
+            {assignment.freelancerName.charAt(0).toUpperCase()}
           </div>
-          <div className="meta-item">
-            <strong>Stage:</strong>{' '}
-            <span className={stageBadgeClass(assignment.currentStage)}>{assignment.currentStage}</span>
+          <div className="assign-info-main">
+            <h3>{assignment.freelancerName}</h3>
+            <span
+              className="assign-stage-badge"
+              style={{
+                color: currentStageConfig.color,
+                background: currentStageConfig.bg,
+                borderColor: currentStageConfig.border
+              }}
+            >
+              <span>{currentStageConfig.icon}</span>
+              {assignment.currentStage}
+            </span>
           </div>
         </div>
-        <p style={{ fontSize: 14, color: '#555', marginTop: 10 }}>
-          <strong>Description:</strong> {assignment.description}
-        </p>
-        {assignment.notes && <p style={{ fontSize: 14, color: '#555' }}>{assignment.notes}</p>}
-        {isProjectOwner && (
-          <div style={{ marginTop: 12 }}>
-            <button type="button" className="btn-danger btn-sm" onClick={handleDelete}>
-              Delete Assignment
-            </button>
+
+        <div className="assign-info-meta">
+          <div className="assign-info-item">
+            <CalendarIcon />
+            <span>Assigned {new Date(assignment.assignedAt).toLocaleDateString(undefined, {
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric'
+            })}</span>
+          </div>
+        </div>
+
+        <div className="assign-info-desc">
+          <FileTextIcon />
+          <p>{assignment.description}</p>
+        </div>
+
+        {assignment.notes && (
+          <div className="assign-info-notes">
+            <MessageIcon />
+            <p>{assignment.notes}</p>
           </div>
         )}
       </div>
 
+      {/* Stage Update Form */}
       {canUpdateStage && (
-        <div className="form-card">
-          <h3 style={{ fontSize: 15, fontWeight: 600, marginBottom: 14 }}>Update Stage</h3>
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label>Stage</label>
-              <select
-                className="form-control"
-                value={form.stage}
-                onChange={(e) => setForm((f) => ({ ...f, stage: e.target.value }))}
-              >
-                {STAGES.map((s) => (
-                  <option key={s} value={s}>
-                    {s}
-                  </option>
-                ))}
-              </select>
-              {errors.stage && <div className="error-msg">{errors.stage}</div>}
+        <div className="assign-card">
+          <div className="assign-card-header compact">
+            <h3>Update Stage</h3>
+            <p>Track progress by updating the current stage</p>
+          </div>
+          <form onSubmit={handleSubmit} className="assign-form">
+            <div className="assign-form-grid">
+              <div className="assign-form-group">
+                <label>New Stage</label>
+                <div className="assign-select-wrapper">
+                  <select
+                    className="assign-select"
+                    value={form.stage}
+                    onChange={(e) => setForm((f) => ({ ...f, stage: e.target.value }))}
+                  >
+                    {STAGES.map((s) => {
+                      const cfg = getStageConfig(s);
+                      return (
+                        <option key={s} value={s}>
+                          {cfg.icon} {s}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  <ChevronDownIcon />
+                </div>
+                {errors.stage && <span className="assign-error">{errors.stage}</span>}
+              </div>
+
+              <div className="assign-form-group">
+                <label>Updated By</label>
+                <div className="assign-input-wrapper">
+                  <PersonIcon />
+                  <input
+                    type="text"
+                    className="assign-input"
+                    placeholder={defaultUpdatedBy}
+                    value={form.updatedBy}
+                    onChange={(e) => setForm((f) => ({ ...f, updatedBy: e.target.value }))}
+                  />
+                </div>
+                {errors.updatedBy && <span className="assign-error">{errors.updatedBy}</span>}
+              </div>
             </div>
-            <div className="form-group">
+
+            <div className="assign-form-group">
               <label>Comment</label>
               <textarea
-                className="form-control"
+                className="assign-textarea"
+                placeholder="Add a comment about this stage update..."
+                rows={3}
                 value={form.comment}
                 onChange={(e) => setForm((f) => ({ ...f, comment: e.target.value }))}
               />
-              {errors.comment && <div className="error-msg">{errors.comment}</div>}
+              {errors.comment && <span className="assign-error">{errors.comment}</span>}
             </div>
-            <div className="form-group">
-              <label>Updated By</label>
-              <input
-                className="form-control"
-                value={form.updatedBy}
-                placeholder={defaultUpdatedBy}
-                onChange={(e) => setForm((f) => ({ ...f, updatedBy: e.target.value }))}
-              />
-              {errors.updatedBy && <div className="error-msg">{errors.updatedBy}</div>}
+
+            {errors.submit && <div className="assign-alert assign-alert-error">{errors.submit}</div>}
+
+            <div className="assign-form-actions">
+              <button type="submit" className="assign-btn-primary" disabled={isLoading}>
+                {isLoading ? 'Updating...' : 'Update Stage'}
+              </button>
             </div>
-            {errors.submit && <div className="error-msg" style={{ marginBottom: 8 }}>{errors.submit}</div>}
-            <button type="submit" className="btn-primary">
-              Update Stage
-            </button>
           </form>
         </div>
       )}
 
       {!canUpdateStage && (
-        <p className="info-msg" style={{ marginBottom: 20 }}>
+        <div className="assign-hint">
+          <span className="assign-hint-icon">ℹ</span>
           Sign in as the project owner or the assigned bidder to post stage updates.
-        </p>
+        </div>
       )}
 
-      <div className="stage-history">
-        <h3 style={{ fontSize: 15, fontWeight: 600, marginBottom: 10 }}>Stage History</h3>
+      {/* Stage History */}
+      <div className="assign-history">
+        <h3 className="assign-history-title">
+          <ClockIcon />
+          Stage History
+          <span className="assign-history-count">{history.length}</span>
+        </h3>
+
         {history.length === 0 ? (
-          <p className="info-msg">No stage updates yet.</p>
+          <div className="assign-history-empty">
+            No stage updates yet. Updates will appear here when you track progress.
+          </div>
         ) : (
-          history.map((entry) => (
-            <div key={entry._id} className="stage-history-item">
-              <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 4 }}>
-                <span className={stageBadgeClass(entry.stage)}>{entry.stage}</span>
-                <span style={{ fontSize: 12, color: '#939598' }}>
-                  {new Date(entry.updatedAt).toLocaleString()}
-                </span>
-                <span style={{ fontSize: 13, color: '#555' }}>
-                  by <strong>{entry.updatedBy}</strong>
-                </span>
-              </div>
-              <p style={{ fontSize: 14, color: '#333', margin: 0 }}>{entry.comment}</p>
-            </div>
-          ))
+          <div className="assign-history-list">
+            {history.map((entry, index) => {
+              const entryConfig = getStageConfig(entry.stage);
+              return (
+                <div
+                  key={entry._id}
+                  className="assign-history-item"
+                  style={{ animationDelay: `${index * 0.05}s` }}
+                >
+                  <div className="assign-history-timeline">
+                    <div
+                      className="assign-history-dot"
+                      style={{ background: entryConfig.color }}
+                    />
+                    {index !== history.length - 1 && <div className="assign-history-line" />}
+                  </div>
+                  <div className="assign-history-content">
+                    <div className="assign-history-header">
+                      <span
+                        className="assign-stage-badge small"
+                        style={{
+                          color: entryConfig.color,
+                          background: entryConfig.bg,
+                          borderColor: entryConfig.border
+                        }}
+                      >
+                        <span>{entryConfig.icon}</span>
+                        {entry.stage}
+                      </span>
+                      <span className="assign-history-time">
+                        {new Date(entry.updatedAt).toLocaleDateString(undefined, {
+                          month: 'short',
+                          day: 'numeric'
+                        })}
+                        {' · '}
+                        {new Date(entry.updatedAt).toLocaleTimeString(undefined, {
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })}
+                      </span>
+                    </div>
+                    <p className="assign-history-comment">{entry.comment}</p>
+                    <span className="assign-history-author">by {entry.updatedBy}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         )}
       </div>
     </div>
