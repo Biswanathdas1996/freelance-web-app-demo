@@ -40,6 +40,9 @@ export default function Layout({ children, showProjectSectionsNav, headerSearch 
                   Post a job
                 </Link>
               )}
+              <Link to="/loans" className="uw-nav-link">
+                Loans
+              </Link>
             </nav>
 
             <div className="uw-search-slot" aria-label="Search">
@@ -120,6 +123,17 @@ export default function Layout({ children, showProjectSectionsNav, headerSearch 
                 </li>
                 <li>
                   <span className="uw-footer-muted">Contracts &amp; milestones (demo)</span>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="uw-footer-heading">Loans</h4>
+              <ul className="uw-footer-links">
+                <li>
+                  <Link to="/loans">Apply for a loan</Link>
+                </li>
+                <li>
+                  <span className="uw-footer-muted">Loan calculator (demo)</span>
                 </li>
               </ul>
             </div>

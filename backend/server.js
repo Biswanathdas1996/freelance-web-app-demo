@@ -13,6 +13,7 @@ const stageProgressRoutes = require('./routes/stageProgress');
 const milestoneRoutes = require('./routes/milestones');
 const paymentRoutes = require('./routes/payments');
 const authRoutes = require('./routes/auth');
+const loanRoutes = require('./routes/loans');
 const { seed } = require('./scripts/seed');
 
 const app = express();
@@ -46,6 +47,7 @@ app.use('/api/assignments', assignmentRoutes);
 app.use('/api/stage-progress', stageProgressRoutes);
 app.use('/api/milestones', milestoneRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/api/loans', loanRoutes);
 
 const PORT = Number(process.env.PORT) || 9001;
 

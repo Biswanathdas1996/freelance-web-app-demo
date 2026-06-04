@@ -96,3 +96,10 @@ export const deleteMilestone = (id) => api.delete(`/milestones/${id}`).then((r) 
 export const getPayments = (params) => api.get('/payments', { params }).then((r) => r.data);
 export const createPayment = (data) => api.post('/payments', data).then((r) => r.data);
 export const updatePayment = (id, data) => api.put(`/payments/${id}`, data).then((r) => r.data);
+
+// Loans
+export const initiateLoanApplication = () => api.post('/loans/initiate').then((r) => r.data);
+export const submitCustomerDetails = (id, data) => api.post(`/loans/${id}/customer-details`, data).then((r) => r.data);
+export const submitIncomeDetails = (id, data) => api.post(`/loans/${id}/income-details`, data).then((r) => r.data);
+export const getMyLoanApplications = () => api.get('/loans/my-applications').then((r) => r.data);
+export const getLoanApplication = (id) => api.get(`/loans/${id}`).then((r) => r.data);
